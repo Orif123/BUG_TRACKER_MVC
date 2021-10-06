@@ -20,7 +20,7 @@ namespace BugTrackerProj.Data
             base.OnModelCreating(builder);
 
             builder.Entity<Project>().HasData(
-                new Project { ProjectId="1", ProjectName="Tesla" },
+                new Project { ProjectId="1", ProjectName="Tesla",  },
                 new Project { ProjectId="2", ProjectName="Microsoft"}
                 );
             builder.Entity<Category>().HasData(
