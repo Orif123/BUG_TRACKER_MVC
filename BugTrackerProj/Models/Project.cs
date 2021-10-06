@@ -16,5 +16,7 @@ namespace BugTrackerProject.Models
         public ICollection<Category> Categories { get; set; }
         [ForeignKey("Users")]
         public ICollection<ApplicationUser> Users { get; set; }
+        [ForeignKey("Bugs")]
+        public ICollection<Bug> Bugs { get; set; }
     }
 }

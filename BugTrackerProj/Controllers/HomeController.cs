@@ -1,4 +1,5 @@
 ﻿using BugTrackerProj.Data;
+using BugTrackerProj.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,15 +11,17 @@ namespace BugTrackerProj.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public HomeController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        private readonly IBugService _bugService;
+        public HomeController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService service)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _bugService = service;
+
         }
-        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(_bugService.GetAllBugs());
         }
 
         public IActionResult Privacy()

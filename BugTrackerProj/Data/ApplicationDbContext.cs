@@ -24,8 +24,13 @@ namespace BugTrackerProj.Data
                 new Project { ProjectId="2", ProjectName="Microsoft"}
                 );
             builder.Entity<Category>().HasData(
-                new Category { CategoryId="1", CtaegoryName="Development"},
-                new Category { CategoryId="2", CtaegoryName="QA"}
+                new Category { CategoryId="1", CtaegoryName="Development", ProjectId="1"},
+                new Category { CategoryId="2", CtaegoryName="QA", ProjectId="1"},
+                new Category { CategoryId="3", CtaegoryName="Development", ProjectId="2"},
+                new Category { CategoryId="4", CtaegoryName="QA", ProjectId="2"}
+                );
+            builder.Entity<Bug>().HasData(
+                new Bug { BugId="o1", BugDate=DateTime.Now, Description="ori", ProjectId="1", CategoryId="1", UserId= "7f3c9ad6-090f-444a-8dd3-9e4179dcbac7" }
                 );
         }
     }
