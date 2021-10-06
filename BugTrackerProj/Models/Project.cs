@@ -12,9 +12,9 @@ namespace BugTrackerProject.Models
     {
         public string ProjectId { get; set; }
         public string ProjectName { get; set; }
-        [ForeignKey("CategoryId")]
+        [ForeignKey("Categories")]
         public ICollection<Category> Categories { get; set; }
-        [ForeignKey("UserId")]
+        [ForeignKey("Users")]
         public ICollection<ApplicationUser> Users { get; set; }
     }
 }

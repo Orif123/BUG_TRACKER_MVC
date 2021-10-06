@@ -11,8 +11,8 @@ namespace BugTrackerProject.Models
         public string CategoryId { get; set; }
         public string CtaegoryName { get; set; }
         [ForeignKey("ProjectId")]
+        public string ProjectId { get; set; }
         public virtual Project Project { get; set; }
-        [ForeignKey("BugId")]
         public virtual ICollection<Bug> Bugs { get; set; }
     }
 }
