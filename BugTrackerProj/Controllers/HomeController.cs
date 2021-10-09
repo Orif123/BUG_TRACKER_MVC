@@ -19,10 +19,20 @@ namespace BugTrackerProj.Controllers
             _bugService = service;
 
         }
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
-            return View(_bugService.GetAllBugs());
+            return View(_bugService.GetAllBugs(id));
         }
+        [HttpGet]
+        public IActionResult GetBugByCategory(string id)
+        {
+            return View(_bugService.GetBugsByCategory(id));
+        }
+        //[HttpGet]
+        //public IActionResult (string id)
+        //{
+        //    return View(_bugService.GetBugsByUser(id));
+        //}
 
         public IActionResult Privacy()
         {
@@ -34,6 +44,5 @@ namespace BugTrackerProj.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
-
     }
 }

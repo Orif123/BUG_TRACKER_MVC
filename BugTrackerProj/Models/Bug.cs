@@ -16,13 +16,13 @@ namespace BugTrackerProject.Models
         public DateTime BugDate { get; set; }
         [Required]
         public string  Description { get; set; }
-        [ForeignKey("Category1")]
+        [ForeignKey("CategoryId")]
         public string CategoryId { get; set; }
         public virtual Category Category { get; set; }
-        [ForeignKey("User1")]
+        [ForeignKey("UserId")]
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
-        [ForeignKey("Project1")]
+        [ForeignKey("ProjectId")]
         public string ProjectId  { get; set; }
         public virtual Project Project { get; set; }
     }

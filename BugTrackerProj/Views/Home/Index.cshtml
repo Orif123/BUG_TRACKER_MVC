@@ -1,33 +1,34 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model IEnumerable<Bug>
+@model BugTrackerProj.ViewModels.MainPageViewModel
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <form method="post">
         <button type="submit" asp-action="Logout">LogOut</button>
     </form>
-    <table border="1" class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.BugId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BugDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.User.FirstName)
-                </th>
-                <th>
-                    Actions
-                </th>
-            </tr>
-        </thead>
-        <tbody>
+    @foreach (var bug in Model.Bugs)
+    {
+        <table border="1" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => bug.BugId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => bug.BugDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => bug.User.FirstName)
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
 
-            @foreach (var bug in Model)
-            {
+
                 <tr>
                     <td>
                         @bug.BugId
@@ -39,9 +40,9 @@
                         @bug.Description
                     </td>
                 </tr>
-            }
 
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
 </div>

@@ -4,14 +4,16 @@ using BugTrackerProj.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BugTrackerProj.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211009191830_moshe")]
+    partial class moshe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,7 +142,7 @@ namespace BugTrackerProj.Data.Migrations
                         new
                         {
                             BugId = "o1",
-                            BugDate = new DateTime(2021, 10, 9, 22, 30, 11, 487, DateTimeKind.Local).AddTicks(1651),
+                            BugDate = new DateTime(2021, 10, 9, 22, 18, 29, 710, DateTimeKind.Local).AddTicks(382),
                             CategoryId = "1",
                             Description = "ori",
                             ProjectId = "1",

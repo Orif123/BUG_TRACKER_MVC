@@ -1,4 +1,5 @@
 ﻿using BugTrackerProj.Data;
+using BugTrackerProj.ViewModels;
 using BugTrackerProject.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,10 +16,28 @@ namespace BugTrackerProj.Service
         {
             _context = context;
         }
-        public IEnumerable<Bug> GetAllBugs()
+        public MainPageViewModel GetAllBugs(string id)
         {
-            var list = _context.Bugs.FromSqlRaw("select * from bugs");
-            return list;
+            MainPageViewModel mp = new MainPageViewModel();
+            mp.Bugs = _context.Bugs.FromSqlRaw($"select * from bugs where bugs.projectid={id}");
+            return mp;
         }
+        public MainPageViewModel GetBugsByCategory(string id)
+        {
+            MainPageViewModel mp = new MainPageViewModel();
+            mp.Categories = _context.Categories.FromSqlRaw($"select * from categories where categoryid={id}").ToList();
+            mp.Bugs = _context.Bugs.FromSqlRaw($"select * from bugs where bugs.categoryid={id}").ToList();
+            return mp;
+        }
+        public MainPageViewModel GetBugsByUser(string id)
+        {
+            var mp = new MainPageViewModel();
+            mp.Users = _context.Users.FromSqlRaw($"select * from user where userid={id}");
+            mp.Bugs = _context.Bugs.FromSqlRaw($"select * from bugs where bug.use={id}").ToList();
+            return mp;
+        }
+
+
     }
 }
+
