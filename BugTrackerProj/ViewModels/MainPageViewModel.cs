@@ -10,7 +10,7 @@ namespace BugTrackerProj.ViewModels
     public class MainPageViewModel
     {
         public IEnumerable<Bug> Bugs { get; set; }
-        public IEnumerable<Category> Categories { get; set; }
+        public Category Category{ get; set; }
         public IEnumerable<ApplicationUser> Users { get; set; }
     }
 }

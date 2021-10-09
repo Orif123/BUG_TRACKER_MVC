@@ -28,11 +28,11 @@ namespace BugTrackerProj.Controllers
         {
             return View(_bugService.GetBugsByCategory(id));
         }
-        //[HttpGet]
-        //public IActionResult (string id)
-        //{
-        //    return View(_bugService.GetBugsByUser(id));
-        //}
+        [HttpGet]
+        public IActionResult GetBugsByUsers(string id)
+        {
+            return View(_bugService.GetBugsByUser(id));
+        }
 
         public IActionResult Privacy()
         {

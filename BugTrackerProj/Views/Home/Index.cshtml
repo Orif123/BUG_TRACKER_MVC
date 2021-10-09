@@ -9,40 +9,46 @@
     </form>
     @foreach (var bug in Model.Bugs)
     {
-        <table border="1" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => bug.BugId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => bug.BugDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => bug.User.FirstName)
-                    </th>
-                    <th>
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
+<form>
+   
+        @*<select  name="id">
+            <option value="@Model.Category.CategoryId">@Html.DisplayNameFor(model => Model.Category.CategoryId)</option>
+        </select>
+        <input  type="submit" value="GetBugsByCategory"/>*@
+    <table border="1" class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => bug.BugId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => bug.BugDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => bug.User.FirstName)
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @bug.BugId
+                </td>
+                <td>
+                    @bug.BugDate
+                </td>
+                <td>
+                    @bug.Description
+                </td>
+            </tr>
 
 
-                <tr>
-                    <td>
-                        @bug.BugId
-                    </td>
-                    <td>
-                        @bug.BugDate
-                    </td>
-                    <td>
-                        @bug.Description
-                    </td>
-                </tr>
-
-
-            </tbody>
-        </table>
+        </tbody>
+    </table>
+    
+</form>
     }
 </div>

@@ -25,7 +25,7 @@ namespace BugTrackerProj.Service
         public MainPageViewModel GetBugsByCategory(string id)
         {
             MainPageViewModel mp = new MainPageViewModel();
-            mp.Categories = _context.Categories.FromSqlRaw($"select * from categories where categoryid={id}").ToList();
+            mp.Category = (Category)_context.Categories.FromSqlRaw($"select * from categories where categoryid={id}");
             mp.Bugs = _context.Bugs.FromSqlRaw($"select * from bugs where bugs.categoryid={id}").ToList();
             return mp;
         }
