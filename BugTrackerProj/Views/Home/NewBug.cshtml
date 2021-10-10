@@ -17,7 +17,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="NewBug">
+        <form asp-action="Add" method="post" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="BugId" class="control-label"></label>
@@ -36,19 +36,22 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
+                @Html.DropDownListFor(m => m.CategoryId,
+            new SelectList(ViewBag.CategoryId), "Select Category")
+
             </div>
             <div class="form-group">
                 <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+                @Html.DropDownListFor(m => m.UserId,
+            new SelectList(ViewBag.UserId), "Select User")
             </div>
             <div class="form-group">
                 <label asp-for="ProjectId" class="control-label"></label>
-                <input asp-for="ProjectId" class="form-control" />
-                <span asp-validation-for="ProjectId" class="text-danger"></span>
+                @Html.DropDownListFor(m => m.ProjectId,
+            new SelectList(ViewBag.ProjectId), "Select Project ")
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" asp-action="Add" class="btn btn-primary" />
             </div>
         </form>
     </div>

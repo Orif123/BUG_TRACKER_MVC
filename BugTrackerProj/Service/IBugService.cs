@@ -11,6 +11,8 @@ namespace BugTrackerProj.Service
     {
         MainPageViewModel GetAllBugs( string searchtext);
         void NewBug(Bug bug);
-        List<Category> GetCategories();
+        List<string> GetCategories();
+        List<string> GetUsers();
+        List<string> GetProjects();
     }
 }

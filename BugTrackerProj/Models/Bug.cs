@@ -23,7 +23,7 @@ namespace BugTrackerProject.Models
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
         [ForeignKey("ProjectId")]
-        public string ProjectId  { get; set; }
+        public string ProjectId { get; set; }
         public virtual Project Project { get; set; }
     }
 }

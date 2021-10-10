@@ -28,11 +28,22 @@ namespace BugTrackerProj.Controllers
         {
             return View(_bugService.GetAllBugs(searchtext));
         }
-        public IActionResult NewBug(Bug bug)
+       
+        public IActionResult NewBug()
         {
-            ViewBag.CategoryId = _bugService.GetCategories().Select(x => new SelectListItem { Text =bug.Category.CtaegoryName , Value = bug.CategoryId })
-                 .ToList(); ;
+            ViewBag.CategoryId = _bugService.GetCategories().ToList(); 
+            ViewBag.UserId = _bugService.GetUsers().ToList(); 
+            ViewBag.ProjectId = _bugService.GetProjects().ToList();
             return View();
+        }
+        public IActionResult Add(Bug bug)
+        {
+            if (ModelState.IsValid)
+            {
+                _bugService.NewBug(bug);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("NewBug");
         }
 
         public IActionResult Privacy()

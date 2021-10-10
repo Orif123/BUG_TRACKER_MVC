@@ -21,7 +21,7 @@ namespace BugTrackerProj.Service
             MainPageViewModel mp = new MainPageViewModel();
             if (searchtext == "" || searchtext == null)
             {
-                mp.Bugs = _context.Bugs.FromSqlRaw($"select * from bugs");
+                mp.Bugs = _context.Bugs.ToList();
                 return mp;
             }
             mp.Bugs = _context.Bugs.Where(p => p.User.FirstName.Contains(searchtext) ||
@@ -31,21 +31,28 @@ namespace BugTrackerProj.Service
             return mp;
         }
 
-        public List<Category> GetCategories()
+        public List<string> GetCategories()
         {
-            var list = _context.Categories.ToList();
+            var list = _context.Categories.Select(list=>list.CtaegoryName).ToList();
+            return list;
+        }
+
+        public List<string> GetProjects()
+        {
+            var list = _context.Projects.Select(list => list.ProjectName).ToList();
+            return list;
+        }
+
+        public List<string> GetUsers()
+        {
+            var list = _context.Users.Select(list => list.UserName).ToList();
             return list;
         }
 
         public void NewBug(Bug bug)
         {
-            bug.Category = (Category)_context.Categories.Where(p => p.CategoryId == bug.CategoryId);
-            bug.CategoryId = bug.Category.CategoryId;
-            bug.Project = (Project)_context.Projects.Where(p => p.ProjectId == bug.ProjectId);
-            bug.ProjectId = bug.Project.ProjectId;
-            bug.User = (ApplicationUser)_context.Users.Where(p => p.Id == p.Id);
-            bug.UserId = bug.User.Id;
-
+            _context.Bugs.Add(bug);
+            _context.SaveChanges();
         }
 
         
