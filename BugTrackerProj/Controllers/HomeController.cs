@@ -1,8 +1,11 @@
 ﻿using BugTrackerProj.Data;
 using BugTrackerProj.Service;
+using BugTrackerProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BugTrackerProj.Controllers
@@ -25,11 +28,13 @@ namespace BugTrackerProj.Controllers
         {
             return View(_bugService.GetAllBugs(searchtext));
         }
-       public IActionResult NewBug()
+        public IActionResult NewBug(Bug bug)
         {
+            ViewBag.CategoryId = _bugService.GetCategories().Select(x => new SelectListItem { Text =bug.Category.CtaegoryName , Value = bug.CategoryId })
+                 .ToList(); ;
             return View();
         }
-            
+
         public IActionResult Privacy()
         {
             return View();

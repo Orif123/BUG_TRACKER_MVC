@@ -31,6 +31,12 @@ namespace BugTrackerProj.Service
             return mp;
         }
 
+        public List<Category> GetCategories()
+        {
+            var list = _context.Categories.ToList();
+            return list;
+        }
+
         public void NewBug(Bug bug)
         {
             bug.Category = (Category)_context.Categories.Where(p => p.CategoryId == bug.CategoryId);
@@ -41,6 +47,8 @@ namespace BugTrackerProj.Service
             bug.UserId = bug.User.Id;
 
         }
+
+        
     }
 }
 
