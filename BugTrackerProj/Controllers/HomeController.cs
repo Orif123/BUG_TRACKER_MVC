@@ -19,21 +19,17 @@ namespace BugTrackerProj.Controllers
             _bugService = service;
 
         }
-        public IActionResult Index(string id)
-        {
-            return View(_bugService.GetAllBugs(id));
-        }
-        [HttpGet]
-        public IActionResult GetBugByCategory(string id)
-        {
-            return View(_bugService.GetBugsByCategory(id));
-        }
-        [HttpGet]
-        public IActionResult GetBugsByUsers(string id)
-        {
-            return View(_bugService.GetBugsByUser(id));
-        }
 
+        [HttpGet]
+        public IActionResult Index(string searchtext = "")
+        {
+            return View(_bugService.GetAllBugs(searchtext));
+        }
+       public IActionResult NewBug()
+        {
+            return View();
+        }
+            
         public IActionResult Privacy()
         {
             return View();

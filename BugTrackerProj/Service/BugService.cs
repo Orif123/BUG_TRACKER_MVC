@@ -16,28 +16,31 @@ namespace BugTrackerProj.Service
         {
             _context = context;
         }
-        public MainPageViewModel GetAllBugs(string id)
+        public MainPageViewModel GetAllBugs(string searchtext = "")
         {
             MainPageViewModel mp = new MainPageViewModel();
-            mp.Bugs = _context.Bugs.FromSqlRaw($"select * from bugs where bugs.projectid={id}");
-            return mp;
-        }
-        public MainPageViewModel GetBugsByCategory(string id)
-        {
-            MainPageViewModel mp = new MainPageViewModel();
-            mp.Category = (Category)_context.Categories.FromSqlRaw($"select * from categories where categoryid={id}");
-            mp.Bugs = _context.Bugs.FromSqlRaw($"select * from bugs where bugs.categoryid={id}").ToList();
-            return mp;
-        }
-        public MainPageViewModel GetBugsByUser(string id)
-        {
-            var mp = new MainPageViewModel();
-            mp.Users = _context.Users.FromSqlRaw($"select * from user where userid={id}");
-            mp.Bugs = _context.Bugs.FromSqlRaw($"select * from bugs where bug.use={id}").ToList();
+            if (searchtext == "" || searchtext == null)
+            {
+                mp.Bugs = _context.Bugs.FromSqlRaw($"select * from bugs");
+                return mp;
+            }
+            mp.Bugs = _context.Bugs.Where(p => p.User.FirstName.Contains(searchtext) ||
+                             p.BugId.Contains(searchtext) ||
+                             p.Category.CtaegoryName.Contains(searchtext) ||
+                             p.Description.Contains(searchtext));
             return mp;
         }
 
+        public void NewBug(Bug bug)
+        {
+            bug.Category = (Category)_context.Categories.Where(p => p.CategoryId == bug.CategoryId);
+            bug.CategoryId = bug.Category.CategoryId;
+            bug.Project = (Project)_context.Projects.Where(p => p.ProjectId == bug.ProjectId);
+            bug.ProjectId = bug.Project.ProjectId;
+            bug.User = (ApplicationUser)_context.Users.Where(p => p.Id == p.Id);
+            bug.UserId = bug.User.Id;
 
+        }
     }
 }
 

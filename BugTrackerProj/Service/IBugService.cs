@@ -9,8 +9,7 @@ namespace BugTrackerProj.Service
 {
     public interface IBugService
     {
-        MainPageViewModel GetAllBugs(string id);
-        MainPageViewModel GetBugsByCategory(string id);
-        MainPageViewModel GetBugsByUser(string id);
+        MainPageViewModel GetAllBugs( string searchtext);
+        void NewBug(Bug bug);
     }
 }
