@@ -23,8 +23,8 @@ namespace BugTrackerProj.ViewModels
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        //[Required]
-        //public Project ProjectId { get; set; }
+        [Required]
+        public string ProjectId { get; set; }
 
     }
 }

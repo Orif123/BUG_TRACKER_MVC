@@ -1,4 +1,5 @@
 ﻿using BugTrackerProj.Data;
+using BugTrackerProj.Service;
 using BugTrackerProj.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,15 +13,18 @@ namespace BugTrackerProj.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IBugService _bugService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService bugService)
         {
+            _bugService = bugService;
             _signInManager = signInManager;
             _userManager = userManager;
         }
         public IActionResult NewAccount()
         {
+            ViewBag.ProjectId = _bugService.GetProjects().ToList();
             return View();
         }
         [HttpPost]
@@ -33,13 +37,14 @@ namespace BugTrackerProj.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
-                    LastName = model.LastName
+                    LastName = model.LastName,
+                    ProjectId = model.ProjectId
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (!result.Succeeded)
                 {
-                     return View(model);
+                    return View(model);
                 }
                 return RedirectToAction("Index", "Home");
             }
@@ -59,15 +64,19 @@ namespace BugTrackerProj.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (_signInManager.IsSignedIn(User))
+                    {
+                        return RedirectToAction("Index", "Home", _userManager.GetUserId(User));
+                    }
+
+                    ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+
                 }
-
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
-
+                return View(user);
             }
             return View(user);
         }
 
-      
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    ViewBag.projid = ViewContext.RouteData.Values["id"];
 }
 @model BugTrackerProj.ViewModels.MainPageViewModel
 <div class="text-center">

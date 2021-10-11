@@ -14,7 +14,7 @@ namespace BugTrackerProj.Data
         public string LastName { get; set; }
         public ICollection<Bug> Bugs { get; set; }
         public virtual Project Project { get; set; }
-        [ForeignKey("Project")]
+        [ForeignKey("ProjectId")]
         public string ProjectId { get; set; }
     }
 }
