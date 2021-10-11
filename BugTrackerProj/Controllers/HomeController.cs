@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,25 +29,32 @@ namespace BugTrackerProj.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string searchtext = "", string userid="")
+        public IActionResult Index(string searchtext = "", string userid = "")
         {
             userid = _userManager.GetUserId(User);
-            return View(_bugService.GetAllBugs(searchtext, userid)); 
+            return View(_bugService.GetAllBugs(searchtext, userid));
         }
-       
-        public IActionResult NewBug()
+
+        public IActionResult NewBug(Bug bug)
         {
-            ViewBag.CategoryId = _bugService.GetCategories().ToList(); 
-            ViewBag.UserId = _bugService.GetUsers().ToList(); 
+            bug.BugId = GetId().ToString();
+            bug.UserId = _userManager.GetUserId(User);
+            bug.BugDate = DateTime.Now;
+            ApplicationUser user = _bugService.GetRealUsers().SingleOrDefault(u => u.Id == bug.UserId);
+            //var project = _bugService.GetRealProjects().SingleOrDefault(p => p.ProjectId == user.ProjectId);
+            bug.ProjectId = user.ProjectId;
+            ViewBag.CategoryId = _bugService.GetCategories().ToList();
+            ViewBag.UserId = _bugService.GetUsers().ToList();
             ViewBag.ProjectId = _bugService.GetProjects().ToList();
-            return View();
+            return View(bug);
         }
+        [HttpPost]
         public IActionResult Add(Bug bug)
         {
             if (ModelState.IsValid)
             {
                 _bugService.NewBug(bug);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("NewBug");
         }
@@ -61,5 +69,13 @@ namespace BugTrackerProj.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
+        public Guid GetId()
+        {
+            var id =Guid.NewGuid();
+            return id;
+
+
+        }
+            
     }
 }

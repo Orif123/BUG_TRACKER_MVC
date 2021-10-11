@@ -1,4 +1,5 @@
-﻿using BugTrackerProj.ViewModels;
+﻿using BugTrackerProj.Data;
+using BugTrackerProj.ViewModels;
 using BugTrackerProject.Models;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,7 @@ namespace BugTrackerProj.Service
         List<string> GetCategories();
         List<string> GetUsers();
         List<string> GetProjects();
+        List<Project> GetRealProjects();
+        List<ApplicationUser> GetRealUsers();
     }
 }

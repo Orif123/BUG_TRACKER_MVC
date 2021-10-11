@@ -21,18 +21,20 @@ namespace BugTrackerProj.Service
             _context = context;
         }
         public MainPageViewModel GetAllBugs(string searchtext = "", string userid="")
-        {
+        { 
+            var user = _context.Users.SingleOrDefault(u => u.Id == userid);
             MainPageViewModel mp = new MainPageViewModel();
             if (searchtext == "" || searchtext == null)
             {
-                var user = _context.Users.SingleOrDefault(u => u.Id == userid);
+               
                 mp.Bugs = _context.Bugs.Where(b=>b.ProjectId==user.ProjectId);
                 return mp;
             }
             mp.Bugs = _context.Bugs.Where(p => p.User.FirstName.Contains(searchtext) ||
                              p.BugId.Contains(searchtext) ||
                              p.Category.CtaegoryName.Contains(searchtext) ||
-                             p.Description.Contains(searchtext));
+                             p.Description.Contains(searchtext)&&
+                             p.ProjectId==user.ProjectId);
             return mp;
         }
 
@@ -47,18 +49,29 @@ namespace BugTrackerProj.Service
             var list = _context.Projects.Select(list => list.ProjectId).ToList();
             return list;
         }
+        public List<Project> GetRealProjects()
+        {
+            var list = _context.Projects.ToList();
+            return list;
+        }
+        public List<ApplicationUser> GetRealUsers()
+        {
+            var list = _context.Users.ToList();
+            return list;
+        }
 
         public List<string> GetUsers()
         {
             var list = _context.Users.Select(list => list.Id).ToList();
             return list;
         }
-
         public void NewBug(Bug bug)
         {
             _context.Bugs.Add(bug);
             _context.SaveChanges();
         }
+      
+            
 
         
     }
