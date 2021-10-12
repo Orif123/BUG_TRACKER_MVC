@@ -24,10 +24,11 @@ namespace BugTrackerProj.Service
         public MainPageViewModel GetAllBugs(string searchtext = "", string userid = "")
         {
             var user = _context.Users.SingleOrDefault(u => u.Id == userid);
+            var project = _context.Projects.SingleOrDefault(p => p.ProjectId == user.ProjectId);
             MainPageViewModel mp = new MainPageViewModel();
             if (searchtext == "" || searchtext == null)
             {
-
+                
                 mp.Bugs = _context.Bugs.Where(b => b.ProjectId == user.ProjectId);
                 return mp;
             }
@@ -35,7 +36,7 @@ namespace BugTrackerProj.Service
                              p.BugId.Contains(searchtext) ||
                              p.Category.CtaegoryName.Contains(searchtext) ||
                              p.Description.Contains(searchtext) &&
-                             p.ProjectId == user.ProjectId);
+                             p.ProjectId == project.ProjectId);
             return mp;
         }
 
