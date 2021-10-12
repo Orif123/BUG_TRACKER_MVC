@@ -38,7 +38,7 @@
         <div class="form-group">
             <label asp-for="ProjectId" class="control-label"></label>
             @Html.DropDownListFor(m => m.ProjectId,
-        new SelectList(ViewBag.ProjectId), "Select Project ")
+        new List<SelectListItem>(ViewBag.ProjectId  ), "Select Project ")
         </div>
     </div>
     <p>

@@ -12,43 +12,50 @@
         <input type="text" name="searchtext" />
         <input type="submit" value="Search" />
     </form>
-        @foreach (var bug in Model.Bugs)
-        {
+       
 
-            <table border="1" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => bug.BugId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => bug.BugDate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => bug.User.FirstName)
-                        </th>
-                        <th>
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            @bug.BugId
-                        </td>
-                        <td>
-                            @bug.BugDate
-                        </td>
-                        <td>
-                            @bug.Description
-                        </td>
-                    </tr>
+    <table border="1" class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                   Bug Id
+                </th>
+                <th>
+                    Bug Date
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead> 
+        <tbody>
+            @foreach (var bug in Model.Bugs)
+            {
+                <tr>
+                    <td>
+                        @bug.BugId
+                    </td>
+                    <td>
+                        @bug.BugDate
+                    </td>
+                    <td>
+                        @bug.Description
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        <input type="submit" />
+                    </td>
+                </tr>
 
-
-                </tbody>
-            </table>
+            }
+            </tbody>
+        </table>
 
       
-    }
+  
     </div>

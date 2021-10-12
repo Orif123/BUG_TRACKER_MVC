@@ -41,11 +41,8 @@ namespace BugTrackerProj.Controllers
             bug.UserId = _userManager.GetUserId(User);
             bug.BugDate = DateTime.Now;
             ApplicationUser user = _bugService.GetRealUsers().SingleOrDefault(u => u.Id == bug.UserId);
-            //var project = _bugService.GetRealProjects().SingleOrDefault(p => p.ProjectId == user.ProjectId);
             bug.ProjectId = user.ProjectId;
-            ViewBag.CategoryId = _bugService.GetCategories().ToList();
-            ViewBag.UserId = _bugService.GetUsers().ToList();
-            ViewBag.ProjectId = _bugService.GetProjects().ToList();
+            ViewBag.CategoryId = _bugService.GetCategories(bug.ProjectId);
             return View(bug);
         }
         [HttpPost]

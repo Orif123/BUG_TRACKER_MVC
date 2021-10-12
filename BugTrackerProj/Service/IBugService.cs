@@ -1,6 +1,7 @@
 ﻿using BugTrackerProj.Data;
 using BugTrackerProj.ViewModels;
 using BugTrackerProject.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace BugTrackerProj.Service
     {
         MainPageViewModel GetAllBugs( string searchtext, string projectid);
         void NewBug(Bug bug);
-        List<string> GetCategories();
+        List<SelectListItem> GetCategories(string id);
         List<string> GetUsers();
-        List<string> GetProjects();
+        List<SelectListItem> GetProjects();
         List<Project> GetRealProjects();
         List<ApplicationUser> GetRealUsers();
     }

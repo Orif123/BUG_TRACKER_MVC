@@ -2,6 +2,7 @@
 using BugTrackerProj.ViewModels;
 using BugTrackerProject.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,34 +21,48 @@ namespace BugTrackerProj.Service
             _httpContext = contextAccessor;
             _context = context;
         }
-        public MainPageViewModel GetAllBugs(string searchtext = "", string userid="")
-        { 
+        public MainPageViewModel GetAllBugs(string searchtext = "", string userid = "")
+        {
             var user = _context.Users.SingleOrDefault(u => u.Id == userid);
             MainPageViewModel mp = new MainPageViewModel();
             if (searchtext == "" || searchtext == null)
             {
-               
-                mp.Bugs = _context.Bugs.Where(b=>b.ProjectId==user.ProjectId);
+
+                mp.Bugs = _context.Bugs.Where(b => b.ProjectId == user.ProjectId);
                 return mp;
             }
             mp.Bugs = _context.Bugs.Where(p => p.User.FirstName.Contains(searchtext) ||
                              p.BugId.Contains(searchtext) ||
                              p.Category.CtaegoryName.Contains(searchtext) ||
-                             p.Description.Contains(searchtext)&&
-                             p.ProjectId==user.ProjectId);
+                             p.Description.Contains(searchtext) &&
+                             p.ProjectId == user.ProjectId);
             return mp;
         }
 
-        public List<string> GetCategories()
+        public List<SelectListItem> GetCategories(string id)
         {
-            var list = _context.Categories.Select(list=>list.CategoryId).ToList();
-            return list;
+            var categolist = _context.Categories.ToList();
+            var selectlist = new List<SelectListItem>();
+            foreach (var item in categolist)
+            {
+                if (item.ProjectId == id)
+                {
+                    selectlist.Add(new SelectListItem { Text = item.CtaegoryName, Value = item.CategoryId });
+                }
+            }
+            return selectlist;
+
         }
 
-        public List<string> GetProjects()
+        public List<SelectListItem> GetProjects()
         {
-            var list = _context.Projects.Select(list => list.ProjectId).ToList();
-            return list;
+            var projlist = _context.Projects.ToList();
+            var selectlist = new List<SelectListItem>();
+            foreach (var item in projlist)
+            {
+                    selectlist.Add(new SelectListItem { Text = item.ProjectName, Value = item.ProjectId });
+            }
+            return selectlist;
         }
         public List<Project> GetRealProjects()
         {
@@ -70,10 +85,10 @@ namespace BugTrackerProj.Service
             _context.Bugs.Add(bug);
             _context.SaveChanges();
         }
-      
-            
 
-        
+
+
+
     }
 }
 
