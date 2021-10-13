@@ -8,9 +8,10 @@
     <form method="post">
         <button type="submit" asp-action="Logout">LogOut</button>
     </form>
-    <form asp-controller="Home" asp-action="Index" method="get">
-        <input type="text" name="searchtext" />
-        <input type="submit" value="Search" />
+    <form >
+        <label asp-for="CategoryId" class="control-label"></label>
+        @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "")
+        <input type="submit" asp-action="Index" />
     </form>
        
 
@@ -34,27 +35,28 @@
         <tbody>
             @foreach (var bug in Model.Bugs)
             {
-                <tr>
-                    <td>
-                       
-                    </td>
-                    <td>
-                        @bug.User.UserName
-                    </td>
-                    <td>
-                        @bug.BugDate
-                    </td>
-                    <td>
-                        @bug.Description
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        <input type="submit" />
-                    </td>
-                </tr>
+                @using (Html.BeginForm("Solved", "Home", new { id = bug.BugId }))
+                {
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            @bug.User.UserName
+                        </td>
+                        <td>
+                            @bug.BugDate
+                        </td>
+                        <td>
+                            @bug.Description
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <input type="submit" value="Solved" />
+                        </td>
+                    </tr>
 
+                }
             }
             </tbody>
         </table>

@@ -11,12 +11,14 @@ namespace BugTrackerProj.Service
 {
     public interface IBugService
     {
-        MainPageViewModel GetAllBugs( string searchtext, string projectid);
+        MainPageViewModel GetAllBugs( MainPageViewModel model, string projectid);
         void NewBug(Bug bug);
         List<SelectListItem> GetCategories(string id);
         List<string> GetUsers();
         List<SelectListItem> GetProjects();
         List<Project> GetRealProjects();
         List<ApplicationUser> GetRealUsers();
+        List<Bug> GetBugsByCategoryId(string id);
+        void BugSolved(string id);
     }
 }

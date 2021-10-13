@@ -1,5 +1,6 @@
 ﻿using BugTrackerProj.Data;
 using BugTrackerProj.Service;
+using BugTrackerProj.ViewModels;
 using BugTrackerProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,11 +29,12 @@ namespace BugTrackerProj.Controllers
             _bugService = service;
         }
 
-        [HttpGet]
-        public IActionResult Index(string searchtext = "", string userid = "")
+        public IActionResult Index(MainPageViewModel model, string userid = "")
         {
             userid = _userManager.GetUserId(User);
-            return View(_bugService.GetAllBugs(searchtext, userid));
+            var user = _bugService.GetRealUsers().SingleOrDefault(i => i.Id == userid);
+            ViewBag.CategoryId = _bugService.GetCategories(user.ProjectId);
+            return View(_bugService.GetAllBugs(model, userid));
         }
 
         public IActionResult NewBug(Bug bug)
@@ -54,6 +56,12 @@ namespace BugTrackerProj.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("NewBug");
+        }
+        [HttpPost]
+        public IActionResult Solved(string id)
+        {
+            _bugService.BugSolved(id);
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Privacy()

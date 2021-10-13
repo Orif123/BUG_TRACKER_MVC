@@ -21,23 +21,32 @@ namespace BugTrackerProj.Service
             _httpContext = contextAccessor;
             _context = context;
         }
-        public MainPageViewModel GetAllBugs(string searchtext = "", string userid = "")
+
+        public void BugSolved(string id)
+        {
+            var bug = _context.Bugs.SingleOrDefault(b => b.BugId == id);
+            _context.Remove(bug);
+            _context.SaveChanges();
+        }
+
+        public MainPageViewModel GetAllBugs(MainPageViewModel model, string userid = "")
         {
             var user = _context.Users.SingleOrDefault(u => u.Id == userid);
             var project = _context.Projects.SingleOrDefault(p => p.ProjectId == user.ProjectId);
-            MainPageViewModel mp = new MainPageViewModel();
-            if (searchtext == "" || searchtext == null)
+            if (model.CategoryId == "" || model.CategoryId == null)
             {
                 
-                mp.Bugs = _context.Bugs.Where(b => b.ProjectId == user.ProjectId);
-                return mp;
+                model.Bugs = _context.Bugs.Where(b => b.ProjectId == user.ProjectId).Include(u=>u.Category).Include(u=>u.Project).Include(u=>u.User);
+                return model;
             }
-            mp.Bugs = _context.Bugs.Where(p => p.User.FirstName.Contains(searchtext) ||
-                             p.BugId.Contains(searchtext) ||
-                             p.Category.CtaegoryName.Contains(searchtext) ||
-                             p.Description.Contains(searchtext) &&
-                             p.ProjectId == project.ProjectId);
-            return mp;
+            model.Bugs = GetBugsByCategoryId(model.CategoryId);
+            return model;
+        }
+        
+        public List<Bug> GetBugsByCategoryId(string id)
+        {
+            var list = _context.Bugs.FromSqlRaw($"select * from Bugs Where bugs.categoryid={id}").Include(p => p.Category).Include(P => P.Project).Include(P => P.User).ToList();
+            return list;
         }
 
         public List<SelectListItem> GetCategories(string id)

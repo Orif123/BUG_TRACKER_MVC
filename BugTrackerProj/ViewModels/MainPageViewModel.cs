@@ -12,5 +12,6 @@ namespace BugTrackerProj.ViewModels
         public IEnumerable<Bug> Bugs { get; set; }
         public Category Category{ get; set; }
         public IEnumerable<ApplicationUser> Users { get; set; }
+        public string CategoryId { get;  set; }
     }
 }
