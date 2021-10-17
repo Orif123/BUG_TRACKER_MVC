@@ -1,6 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-    ViewBag.projid = ViewContext.RouteData.Values["id"];
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model BugTrackerProj.ViewModels.MainPageViewModel
 <div class="text-center">
@@ -8,21 +9,14 @@
     <form method="post">
         <button type="submit" asp-action="Logout">LogOut</button>
     </form>
-    <form >
-        <label asp-for="CategoryId" class="control-label"></label>
-        @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "")
-        <input type="submit" asp-action="Index" />
-    </form>
-       
-
     <table border="1" class="table table-striped">
         <thead>
             <tr>
                 <th>
-                  Project Name
+                    Project Name
                 </th>
                 <th>
-                   User
+                    User
                 </th>
                 <th>
                     Date
@@ -31,12 +25,11 @@
                     Description
                 </th>
             </tr>
-        </thead> 
+        </thead>
         <tbody>
             @foreach (var bug in Model.Bugs)
             {
-                @using (Html.BeginForm("Solved", "Home", new { id = bug.BugId }))
-                {
+                
                     <tr>
                         <td>
                             @bug.Category.CtaegoryName
@@ -54,12 +47,12 @@
                             <input type="submit" value="Solved" />
                         </td>
                     </tr>
-
-                }
             }
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 
-      
-  
-    </div>
+
+
+</div>
+
+

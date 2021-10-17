@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BugTrackerProj.Data.Migrations
+namespace BugTrackerProj.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211009191830_moshe")]
-    partial class moshe
+    [Migration("20211016203726_update-data")]
+    partial class updatedata
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,7 +72,7 @@ namespace BugTrackerProj.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ProjectId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -96,8 +96,6 @@ namespace BugTrackerProj.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("ProjectId");
 
                     b.HasIndex("Users");
 
@@ -137,17 +135,6 @@ namespace BugTrackerProj.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Bugs");
-
-                    b.HasData(
-                        new
-                        {
-                            BugId = "o1",
-                            BugDate = new DateTime(2021, 10, 9, 22, 18, 29, 710, DateTimeKind.Local).AddTicks(382),
-                            CategoryId = "1",
-                            Description = "ori",
-                            ProjectId = "1",
-                            UserId = "7f3c9ad6-090f-444a-8dd3-9e4179dcbac7"
-                        });
                 });
 
             modelBuilder.Entity("BugTrackerProject.Models.Category", b =>
@@ -194,6 +181,12 @@ namespace BugTrackerProj.Data.Migrations
                             CategoryId = "4",
                             CtaegoryName = "QA",
                             ProjectId = "2"
+                        },
+                        new
+                        {
+                            CategoryId = "5",
+                            CtaegoryName = "sisi",
+                            ProjectId = "1"
                         });
                 });
 
@@ -356,10 +349,6 @@ namespace BugTrackerProj.Data.Migrations
             modelBuilder.Entity("BugTrackerProj.Data.ApplicationUser", b =>
                 {
                     b.HasOne("BugTrackerProject.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
-
-                    b.HasOne("BugTrackerProject.Models.Project", null)
                         .WithMany("Users")
                         .HasForeignKey("Users");
                 });

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BugTrackerProj.Data.Migrations
+namespace BugTrackerProj.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211006175936_ls")]
-    partial class ls
+    [Migration("20211016200137_code-first")]
+    partial class codefirst
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,7 +72,7 @@ namespace BugTrackerProj.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ProjectId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -96,8 +96,6 @@ namespace BugTrackerProj.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("ProjectId");
 
                     b.HasIndex("Users");
 
@@ -123,7 +121,7 @@ namespace BugTrackerProj.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProjectId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -133,8 +131,6 @@ namespace BugTrackerProj.Data.Migrations
                     b.HasIndex("Bugs");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProjectId");
 
                     b.HasIndex("UserId");
 
@@ -347,23 +343,13 @@ namespace BugTrackerProj.Data.Migrations
             modelBuilder.Entity("BugTrackerProj.Data.ApplicationUser", b =>
                 {
                     b.HasOne("BugTrackerProject.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
-
-                    b.HasOne("BugTrackerProject.Models.Project", null)
                         .WithMany("Users")
                         .HasForeignKey("Users");
                 });
 
             modelBuilder.Entity("BugTrackerProject.Models.Bug", b =>
                 {
-                    b.HasOne("BugTrackerProj.Data.ApplicationUser", null)
-                        .WithMany("Bugs")
-                        .HasForeignKey("BugId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BugTrackerProject.Models.Project", null)
+                    b.HasOne("BugTrackerProject.Models.Project", "Project")
                         .WithMany("Bugs")
                         .HasForeignKey("Bugs");
 
@@ -371,12 +357,8 @@ namespace BugTrackerProj.Data.Migrations
                         .WithMany("Bugs")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("BugTrackerProject.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
-
                     b.HasOne("BugTrackerProj.Data.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Bugs")
                         .HasForeignKey("UserId");
                 });
 

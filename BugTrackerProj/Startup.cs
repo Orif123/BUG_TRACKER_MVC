@@ -37,6 +37,7 @@ namespace BugTrackerProj
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IBugService, BugService>();
+            services.AddScoped<IManagementService, ManagementService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

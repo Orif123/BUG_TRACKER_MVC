@@ -1,0 +1,18 @@
+﻿@model BugTrackerProj.ViewModels.UserToRoleRegistraionViewModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+<form method="post">
+    <label asp-for="Username"></label>
+    <input asp-for="Username"/>
+    <label asp-for="RoleName"></label>
+    <input  asp-for="RoleName" />
+    <input  type="submit" asp-action="Create"/>
+
+
+
+</form>
+
