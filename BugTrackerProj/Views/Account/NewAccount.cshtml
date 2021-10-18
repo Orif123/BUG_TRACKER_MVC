@@ -2,6 +2,7 @@
 @model BugTrackerProj.ViewModels.RegisterViewModel
 @{
     ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Register</h1>
@@ -42,6 +43,6 @@
         </div>
     </div>
     <p>
-        <input type="submit"  class="btn btn-success"  asp-action="Register" />
+        <input type="submit"  class="btn btn-success"  asp-action="NewAccount" />
     </p>
 </form>

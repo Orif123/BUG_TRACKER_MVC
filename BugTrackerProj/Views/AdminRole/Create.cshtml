@@ -7,10 +7,12 @@
 <h1>Create</h1>
 <form method="post">
     <label asp-for="Username"></label>
-    <input asp-for="Username"/>
+    <input asp-for="Username" />
+    <span asp-validation-for="Username"></span>
     <label asp-for="RoleName"></label>
-    <input  asp-for="RoleName" />
-    <input  type="submit" asp-action="Create"/>
+    <input asp-for="RoleName" />
+    <span asp-validation-for="RoleName"></span>
+    <input type="submit" asp-action="Create" />
 
 
 

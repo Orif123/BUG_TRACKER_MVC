@@ -28,7 +28,7 @@ namespace BugTrackerProj.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> NewAccount(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -41,13 +41,14 @@ namespace BugTrackerProj.Controllers
                     ProjectId = model.ProjectId
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
-
+                await _userManager.AddToRoleAsync(user, "User");
                 if (!result.Succeeded)
                 {
                     return View(model);
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home"); 
             }
+           
             return View();
         }
         public IActionResult Login()

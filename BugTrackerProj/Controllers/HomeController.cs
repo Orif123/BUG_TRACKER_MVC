@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -21,19 +22,22 @@ namespace BugTrackerProj.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IBugService _bugService;
-        public HomeController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService service, IHttpContextAccessor accessor)
+        private readonly IHubContext<ApplicationHub> _hubContext;
+        public HomeController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService service, IHttpContextAccessor accessor, IHubContext<ApplicationHub> hubContext)
         {
             _accessor = accessor;
             _signInManager = signInManager;
             _userManager = userManager;
             _bugService = service;
+            _hubContext = hubContext;
         }
-
+        [Authorize(Roles ="User, CompanyManager, Admin")]
         public IActionResult Index(MainPageViewModel model, string userid = "")
         {
             userid = _userManager.GetUserId(User);
             var user = _bugService.GetRealUsers().SingleOrDefault(i => i.Id == userid);
             ViewBag.CategoryId = _bugService.GetCategories(user.ProjectId);
+            
             return View(_bugService.GetAllBugs(model, userid));
         }
 
@@ -48,11 +52,12 @@ namespace BugTrackerProj.Controllers
             return View(bug);
         }
         [HttpPost]
-        public IActionResult Add(Bug bug)
+        public async Task<IActionResult> Add(Bug bug)
         {
             if (ModelState.IsValid)
             {
                 _bugService.NewBug(bug);
+                await _hubContext.Clients.All.SendAsync("loadBugs");
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("NewBug");
@@ -83,4 +88,6 @@ namespace BugTrackerProj.Controllers
         }
             
     }
+
+    
 }

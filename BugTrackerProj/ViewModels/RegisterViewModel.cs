@@ -14,6 +14,7 @@ namespace BugTrackerProj.ViewModels
         public string Email { get; set; }
         [DataType(DataType.Password)]
         [Required]
+        [MinLength(8)]
         public string Password { get; set; }
         [Required]
         [DataType(DataType.Password)]

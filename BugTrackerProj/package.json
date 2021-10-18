@@ -1,0 +1,17 @@
+{
+  "name": "BugTrackerProj",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "wbp": "webpack wwwroot/source/site.js "
+    },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+    "devDependencies": {
+        "webpack": "^5.58.2",
+        "wbp": "webpack wwwroot/source/site.js "
+    }
+}
