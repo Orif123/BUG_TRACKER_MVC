@@ -2,6 +2,7 @@
 using BugTrackerProject.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace BugTrackerProject.Models
 {
     public class Project
     {
+        [MaxLength]
         public string ProjectId { get; set; }
         public string ProjectName { get; set; }
         [ForeignKey("Categories")]
