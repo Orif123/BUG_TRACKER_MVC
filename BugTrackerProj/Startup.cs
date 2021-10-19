@@ -48,6 +48,7 @@ namespace BugTrackerProj
             services.AddScoped<IBugService, BugService>();
             services.AddScoped<IManagementService, ManagementService>();
             services.AddControllersWithViews();
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.AddRazorPages();
         }
 
@@ -75,11 +76,12 @@ namespace BugTrackerProj
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
+            { 
+                endpoints.MapHub<ApplicationHub>("./ApplicationHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapHub<ApplicationHub>("/ApplicationHub");
+               
                 endpoints.MapRazorPages();
             });
         }

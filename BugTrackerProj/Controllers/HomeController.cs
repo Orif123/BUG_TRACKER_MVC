@@ -32,12 +32,12 @@ namespace BugTrackerProj.Controllers
             _hubContext = hubContext;
         }
         [Authorize(Roles ="User, CompanyManager, Admin")]
-        public IActionResult Index(MainPageViewModel model, string userid = "")
+        public async Task <IActionResult> Index(MainPageViewModel model, string userid = "")
         {
             userid = _userManager.GetUserId(User);
             var user = _bugService.GetRealUsers().SingleOrDefault(i => i.Id == userid);
             ViewBag.CategoryId = _bugService.GetCategories(user.ProjectId);
-            
+            await _hubContext.Clients.All.SendAsync("loadBugs");
             return View(_bugService.GetAllBugs(model, userid));
         }
 
@@ -52,12 +52,12 @@ namespace BugTrackerProj.Controllers
             return View(bug);
         }
         [HttpPost]
-        public async Task<IActionResult> Add(Bug bug)
+        public  IActionResult Add(Bug bug)
         {
             if (ModelState.IsValid)
             {
                 _bugService.NewBug(bug);
-                await _hubContext.Clients.All.SendAsync("loadBugs");
+               
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("NewBug");

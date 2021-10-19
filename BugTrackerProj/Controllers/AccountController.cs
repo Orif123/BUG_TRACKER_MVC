@@ -22,7 +22,7 @@ namespace BugTrackerProj.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
-        public IActionResult NewAccount()
+        public IActionResult Register()
         {
             ViewBag.ProjectId = _bugService.GetProjects().ToList();
             return View();
