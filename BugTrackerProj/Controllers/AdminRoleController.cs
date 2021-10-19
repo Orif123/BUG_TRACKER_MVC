@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BugTrackerProj.Controllers
 {
-    //[Authorize(Roles = "CompanyManager")]
+   [Authorize(Roles = "CompanyManager, Admin")]
     public class AdminRoleController : Controller
     {
         

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace BugTrackerProject.Models
     {
         public string CategoryId { get; set; }
         public string CtaegoryName { get; set; }
+        [MaxLength(450)]
         [ForeignKey("ProjectId")]
         public string ProjectId { get; set; }
         public virtual Project Project { get; set; }
