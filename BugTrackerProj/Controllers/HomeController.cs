@@ -73,17 +73,13 @@ namespace BugTrackerProj.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.UserId = _userManager.GetUserId(User);
                 _bugService.AddComment(model);
-                return RedirectToAction("Index");
+                return RedirectToAction("BugDetails", new {id=model.BugId });
             }
             return RedirectToAction("BugDetails");
         }
-        [HttpPost]
-        public IActionResult Solved(string id)
-        {
-            _bugService.BugSolved(id);
-            return RedirectToAction("Index", "Home");
-        }
+        
 
         public IActionResult Privacy()
         {

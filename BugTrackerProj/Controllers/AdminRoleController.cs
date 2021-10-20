@@ -17,23 +17,23 @@ namespace BugTrackerProj.Controllers
         
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IManagementService _managementService;
-        public AdminRoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IManagementService managementService)
+        private readonly IBugService _bugService;
+        public AdminRoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IBugService bugService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            _managementService = managementService;
+            _bugService = bugService;
         }
         public  IActionResult Index(MainPageViewModel model)
         {
             if (User.IsInRole("CompanyManager"))
             {
-               model.Bugs = _managementService.GetAllBugs();
+               model.Bugs = _bugService.GetAllBugs();
                 return View(model);
             }
             var userid =  _userManager.GetUserId(User);
-            var user = _managementService.GetUsers().SingleOrDefault(p => p.Id == userid);
-            model.Bugs=_managementService.GetBugsByProject(user.ProjectId);
+            var user = _bugService.GetRealUsers().SingleOrDefault(p => p.Id == userid);
+            model.Bugs=_bugService.GetBugsByProject(user.ProjectId);
             return View(model);
         }
             
@@ -52,6 +52,12 @@ namespace BugTrackerProj.Controllers
                 await _userManager.AddToRoleAsync(user, model.RoleName);
             }
             return View();
+        }
+        [HttpPost]
+        public IActionResult Solved(string id)
+        {
+            _bugService.BugSolved(id);
+            return RedirectToAction("Index", "Home");
         }
 
 

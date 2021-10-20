@@ -35,7 +35,7 @@
         <tbody class="tablebody">
             @foreach (var bug in Model.Bugs)
             {
-                @using (Html.BeginForm("Solved", "Home", new { id = bug.BugId }))
+                @using (Html.BeginForm("BugDetails", "Home", new { id = bug.BugId }))
                 {
                     <tr>
                         <td>
@@ -51,7 +51,7 @@
                             @bug.Description
                         </td>
                         <td>
-                            <input type="submit" value="Solved" />
+                            <input type="submit" value="Solved" asp-action="BugDetails" asp-route-id="@bug.BugId" />
                         </td>
                     </tr>
 

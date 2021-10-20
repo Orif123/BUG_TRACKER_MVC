@@ -1,4 +1,5 @@
-﻿using BugTrackerProject.Models;
+﻿using BugTrackerProj.Models;
+using BugTrackerProject.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,7 @@ namespace BugTrackerProj.Data
         [Required]
         public string LastName { get; set; }
         public ICollection<Bug> Bugs { get; set; }
+        public ICollection<Comment> comments { get; set; }
         public virtual Project Project { get; set; }
         [MaxLength(450)]
         [ForeignKey("ProjectId")]

@@ -4,14 +4,16 @@ using BugTrackerProj.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BugTrackerProj.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211020150153_User-id")]
+    partial class Userid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,7 +393,7 @@ namespace BugTrackerProj.Migrations
                         .IsRequired();
 
                     b.HasOne("BugTrackerProj.Data.ApplicationUser", "User")
-                        .WithMany("comments")
+                        .WithMany()
                         .HasForeignKey("UserId");
                 });
 

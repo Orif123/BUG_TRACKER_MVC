@@ -29,13 +29,19 @@ namespace BugTrackerProj.Service
             {
                 CommentId = Guid.NewGuid().ToString(),
                 Text = model.CommentText,
+                BugId=model.BugId,
+                UserId=model.UserId
             };
+
             _context.Comments.Add(comment);
+            _context.SaveChanges();
         }
 
         public void BugSolved(string id)
         {
             var bug = _context.Bugs.SingleOrDefault(b => b.BugId == id);
+            var comments = _context.Comments.Where(c => c.BugId == id).Include(c=>c.Bug).Include(c=>c.User).ToList();
+            _context.Comments.RemoveRange(comments);
             _context.Remove(bug);
             _context.SaveChanges();
         }
@@ -79,7 +85,7 @@ namespace BugTrackerProj.Service
         {
             var model = new BugCommentDetailsViewModel();
             model.Bug = _context.Bugs.Where(p=>p.BugId==id).Include(c=>c.Category).Include(c=>c.User).Include(c=>c.Project).ToList();
-            model.Comments = _context.Comments.FromSqlRaw($"select * from Comments where comments.bugid={id}");
+            model.Comments = _context.Comments.Where(c => c.BugId == id).Include(u=>u.User);
             return model;
         }
 
@@ -112,12 +118,22 @@ namespace BugTrackerProj.Service
         }
         public void NewBug(Bug bug)
         {
-            bug.BugId = "ra";
+            bug.BugId = Guid.NewGuid().ToString();
             bug.BugDate = DateTime.Now;
             var user = GetRealUsers().SingleOrDefault(u => u.Id == bug.UserId);
             bug.ProjectId = user.ProjectId;
             _context.Bugs.Add(bug);
             _context.SaveChanges();
+        }
+        public IEnumerable<Bug> GetAllBugs()
+        {
+            var list = _context.Bugs.Include(p => p.Category).Include(P => P.User).ToList();
+            return list;
+        }
+        public List<Bug> GetBugsByProject(string projectid)
+        {
+            var list = _context.Bugs.FromSqlRaw($"select * from bugs where bugs.projectid={projectid}").Include(p => p.Category).Include(P => P.User).ToList();
+            return list;
         }
 
 

@@ -16,5 +16,8 @@ namespace BugTrackerProj.ViewModels
         public string CommentText { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
         public IEnumerable<Bug> Bug { get; set; }
+        [DisplayName("Bug Id")]
+        public string BugId { get; set; }
+        public string UserId { get; set; }
     }
 }

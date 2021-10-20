@@ -1,4 +1,5 @@
-﻿using BugTrackerProject.Models;
+﻿using BugTrackerProj.Data;
+using BugTrackerProject.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,5 +15,8 @@ namespace BugTrackerProj.Models
         public virtual Bug Bug { get; set; }
         [ForeignKey("BugId")]
         public string BugId { get; set; }
+        public virtual ApplicationUser User { get; set; }
+        [ForeignKey("UserId")]
+        public string  UserId { get; set; }
     }
 }

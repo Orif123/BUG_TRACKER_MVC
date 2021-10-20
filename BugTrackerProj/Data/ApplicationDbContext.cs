@@ -33,6 +33,9 @@ namespace BugTrackerProj.Data
                 new Category { CategoryId="4", CtaegoryName="QA", ProjectId="2"},
                 new Category { CategoryId="5", CtaegoryName="sisi", ProjectId="1"}
                 );
+            builder.Entity<Comment>().HasData(
+                new Comment { CommentId = "gsgdfartsdfsa", BugId = "ra", Text = "ori" }
+                );
         }
     }
 }
