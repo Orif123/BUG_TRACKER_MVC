@@ -20,5 +20,7 @@ namespace BugTrackerProj.Service
         List<ApplicationUser> GetRealUsers();
         List<Bug> GetBugsByCategoryId(string id);
         void BugSolved(string id);
+        BugCommentDetailsViewModel GetDetails(string id);
+        void AddComment(BugCommentDetailsViewModel model);
     }
 }

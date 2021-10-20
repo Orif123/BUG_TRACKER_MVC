@@ -1,4 +1,5 @@
 ﻿using BugTrackerProj.Data;
+using BugTrackerProj.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,5 +26,7 @@ namespace BugTrackerProject.Models
         [ForeignKey("ProjectId")]
         public string ProjectId { get; set; }
         public virtual Project Project { get; set; }
+        [ForeignKey("CommentId")]
+        public ICollection<Comment> Comments { get; set; }
     }
 }

@@ -41,26 +41,42 @@ namespace BugTrackerProj.Controllers
             return View(_bugService.GetAllBugs(model, userid));
         }
 
-        public IActionResult NewBug(Bug bug)
+        public IActionResult NewBug()
         {
-            bug.BugId = GetId().ToString();
-            bug.UserId = _userManager.GetUserId(User);
-            bug.BugDate = DateTime.Now;
-            ApplicationUser user = _bugService.GetRealUsers().SingleOrDefault(u => u.Id == bug.UserId);
-            bug.ProjectId = user.ProjectId;
-            ViewBag.CategoryId = _bugService.GetCategories(bug.ProjectId);
-            return View(bug);
+            
+            var user = _bugService.GetRealUsers().SingleOrDefault(u => u.Id == _userManager.GetUserId(User));
+            ViewBag.CategoryId = _bugService.GetCategories(user.ProjectId);
+            return View();
         }
         [HttpPost]
-        public  IActionResult Add(Bug bug)
+        public  IActionResult Add(NewBugViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var bug = new Bug() {
+                    UserId = _userManager.GetUserId(User),
+                    CategoryId = model.CategoryId,
+                    Description=model.Description
+            };
                 _bugService.NewBug(bug);
                
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("NewBug");
+        }
+        public IActionResult BugDetails(string id)
+        {
+            return View(_bugService.GetDetails(id));
+        }
+        [HttpPost]
+        public IActionResult AddComment(BugCommentDetailsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _bugService.AddComment(model);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("BugDetails");
         }
         [HttpPost]
         public IActionResult Solved(string id)
@@ -79,13 +95,7 @@ namespace BugTrackerProj.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
-        public Guid GetId()
-        {
-            var id =Guid.NewGuid();
-            return id;
-
-
-        }
+       
             
     }
 

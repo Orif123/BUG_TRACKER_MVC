@@ -1,4 +1,5 @@
 ﻿using BugTrackerProj.Data;
+using BugTrackerProj.Models;
 using BugTrackerProj.ViewModels;
 using BugTrackerProject.Models;
 using Microsoft.AspNetCore.Http;
@@ -20,6 +21,16 @@ namespace BugTrackerProj.Service
         {
             _httpContext = contextAccessor;
             _context = context;
+        }
+
+        public void AddComment(BugCommentDetailsViewModel model)
+        {
+            var comment = new Comment()
+            {
+                CommentId = Guid.NewGuid().ToString(),
+                Text = model.CommentText,
+            };
+            _context.Comments.Add(comment);
         }
 
         public void BugSolved(string id)
@@ -64,6 +75,15 @@ namespace BugTrackerProj.Service
 
         }
 
+        public BugCommentDetailsViewModel GetDetails(string id)
+        {
+            var model = new BugCommentDetailsViewModel();
+            model.Bug = _context.Bugs.Where(p=>p.BugId==id).Include(c=>c.Category).Include(c=>c.User).Include(c=>c.Project).ToList();
+            model.Comments = _context.Comments.FromSqlRaw($"select * from Comments where comments.bugid={id}");
+            return model;
+        }
+
+
         public List<SelectListItem> GetProjects()
         {
             var projlist = _context.Projects.ToList();
@@ -92,6 +112,10 @@ namespace BugTrackerProj.Service
         }
         public void NewBug(Bug bug)
         {
+            bug.BugId = "ra";
+            bug.BugDate = DateTime.Now;
+            var user = GetRealUsers().SingleOrDefault(u => u.Id == bug.UserId);
+            bug.ProjectId = user.ProjectId;
             _context.Bugs.Add(bug);
             _context.SaveChanges();
         }

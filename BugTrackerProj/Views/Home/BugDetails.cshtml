@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewData["Title"] = "BugDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model BugTrackerProj.ViewModels.BugCommentDetailsViewModel
+<h1>BugDetails</h1>
+<body>
+    <table border="1" class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Project Name
+                </th>
+                <th>
+                    User
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+        </thead>
+        <tbody class="tablebody">
+            @foreach (var bug in Model.Bug)
+            {
+
+
+                <tr>
+                    <td>
+                        @bug.Category.CtaegoryName
+                    </td>
+                    <td>
+                        @bug.User.UserName
+                    </td>
+                    <td>
+                        @bug.BugDate
+                    </td>
+                    <td>
+                        @bug.Description
+                    </td>
+                    <td>
+                        <input type="submit" value="Solved" />
+                    </td>
+                </tr>
+
+
+            }
+        </tbody>
+    </table>
+    <h1 class="details">Comments</h1>
+    <form method="post">
+        <label asp-for="CommentText"></label>
+        <textarea asp-for="CommentText"></textarea>
+        <input type="submit" asp-action="AddComment" />
+    </form>
+
+    
+
+
+</body>
+
+
