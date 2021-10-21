@@ -40,8 +40,9 @@ namespace BugTrackerProj.Service
         public void BugSolved(string id)
         {
             var bug = _context.Bugs.SingleOrDefault(b => b.BugId == id);
-            var comments = _context.Comments.Where(c => c.BugId == id).Include(c=>c.Bug).Include(c=>c.User).ToList();
+            var comments = _context.Comments.Where(c => c.BugId == bug.BugId).ToList();
             _context.Comments.RemoveRange(comments);
+            _context.SaveChanges();
             _context.Remove(bug);
             _context.SaveChanges();
         }

@@ -57,7 +57,7 @@ namespace BugTrackerProj.Controllers
         public IActionResult Solved(string id)
         {
             _bugService.BugSolved(id);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "AdminRole");
         }
 
 
