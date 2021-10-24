@@ -31,7 +31,7 @@ namespace BugTrackerProj.Controllers
             _bugService = service;
             _hubContext = hubContext;
         }
-        [Authorize(Roles ="User, CompanyManager, Admin")]
+        [Authorize(Roles ="User")]
         public async Task <IActionResult> Index(MainPageViewModel model, string userid = "")
         {
             userid = _userManager.GetUserId(User);

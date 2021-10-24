@@ -1,0 +1,23 @@
+{
+  "name": "BugTrackerProjects",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Orif123/BugTrackerProj.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Orif123/BugTrackerProj/issues"
+  },
+  "homepage": "https://github.com/Orif123/BugTrackerProj#readme",
+  "dependencies": {
+    "@microsoft/signalr": "^5.0.11"
+  }
+}

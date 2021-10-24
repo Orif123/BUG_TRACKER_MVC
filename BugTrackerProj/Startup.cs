@@ -26,8 +26,6 @@ namespace BugTrackerProj
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
@@ -75,10 +73,10 @@ namespace BugTrackerProj
 
             app.UseEndpoints(endpoints =>
             { 
-                endpoints.MapHub<ApplicationHub>("./ApplicationHub");
+                endpoints.MapHub<ApplicationHub>("/ApplicationHub");
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Entry}/{action=HomePage}/{id?}");
                
                 endpoints.MapRazorPages();
             });

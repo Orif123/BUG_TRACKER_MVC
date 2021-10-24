@@ -9,53 +9,7 @@
     <form method="post">
         <button type="submit" asp-action="Logout">LogOut</button>
     </form>
-    <table border="1" class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    Project Name
-                </th>
-                <th>
-                    User
-                </th>
-                <th>
-                    Date
-                </th>
-                <th>
-                    Description
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var bug in Model.Bugs)
-            {
-                @using (Html.BeginForm("Solved", "AdminRole", new { id = bug.BugId }))
-                {
-                    <tr>
-                        <td>
-                            @bug.Category.CtaegoryName
-                        </td>
-                        <td>
-                            @bug.User.UserName
-                        </td>
-                        <td>
-                            @bug.BugDate
-                        </td>
-                        <td>
-                            @bug.Description
-                        </td>
-                        <td>
-                            <input type="submit" value="Details" asp-controller="Home" asp-action="BugDetails" asp-route-id="@bug.BugId" />
-                            <input type="submit" value="Solved" />
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-
-
-
+    @await Component.InvokeAsync("BugList"))
 </div>
 
 

@@ -6,12 +6,10 @@
 
 <h1>Create</h1>
 <form method="post">
-    <label asp-for="Username"></label>
-    <input asp-for="Username" />
-    <span asp-validation-for="Username"></span>
-    <label asp-for="RoleName"></label>
-    <input asp-for="RoleName" />
-    <span asp-validation-for="RoleName"></span>
+    <label asp-for="Username" class="control-label"></label>
+    @Html.DropDownListFor(m => m.Username, new List<SelectListItem>(ViewBag.Users), "Choose User")
+    <label asp-for="RoleName" class="control-label"></label>
+    @Html.DropDownListFor(m => m.RoleName, new List<SelectListItem>(ViewBag.Roles), "Choose Role")
     <input type="submit" asp-action="Create" />
 
 

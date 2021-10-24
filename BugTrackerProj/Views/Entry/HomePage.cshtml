@@ -1,0 +1,20 @@
+﻿@model BugTrackerProj.ViewModels.MainPageViewModel
+@using BugTrackerProj.ViewComponents
+@{
+    ViewData["Title"] = "HomePage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>HomePage</h1>
+
+<h2>Number of Bugs your team should handle:</h2>
+
+<h3>@Model.BugCounter</h3>
+
+<form method="post">
+    <input type="submit" asp-action="Navigate"/>
+</form>
+@await Component.InvokeAsync(nameof(UserList))
+
+
+

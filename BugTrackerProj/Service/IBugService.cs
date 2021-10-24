@@ -24,5 +24,11 @@ namespace BugTrackerProj.Service
         void AddComment(BugCommentDetailsViewModel model);
         IEnumerable<Bug> GetAllBugs();
         List<Bug> GetBugsByProject(string projectid);
+        MainPageViewModel CountProjectBugs(string projectid);
+        MainPageViewModel CountAllBugs();
+        List<SelectListItem> GetUserRoles();
+        List<SelectListItem> GetUserNames();
+
+
     }
 }

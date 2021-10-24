@@ -22,7 +22,6 @@ namespace BugTrackerProj.Service
             _httpContext = contextAccessor;
             _context = context;
         }
-
         public void AddComment(BugCommentDetailsViewModel model)
         {
             var comment = new Comment()
@@ -36,7 +35,6 @@ namespace BugTrackerProj.Service
             _context.Comments.Add(comment);
             _context.SaveChanges();
         }
-
         public void BugSolved(string id)
         {
             var bug = _context.Bugs.SingleOrDefault(b => b.BugId == id);
@@ -46,7 +44,6 @@ namespace BugTrackerProj.Service
             _context.Remove(bug);
             _context.SaveChanges();
         }
-
         public MainPageViewModel GetAllBugs(MainPageViewModel model, string userid = "")
         {
             var user = _context.Users.SingleOrDefault(u => u.Id == userid);
@@ -60,13 +57,11 @@ namespace BugTrackerProj.Service
             model.Bugs = GetBugsByCategoryId(model.CategoryId);
             return model;
         }
-        
         public List<Bug> GetBugsByCategoryId(string id)
         {
             var list = _context.Bugs.FromSqlRaw($"select * from Bugs Where bugs.categoryid={id}").Include(p => p.Category).Include(P => P.Project).Include(P => P.User).ToList();
             return list;
         }
-
         public List<SelectListItem> GetCategories(string id)
         {
             var categolist = _context.Categories.ToList();
@@ -81,7 +76,6 @@ namespace BugTrackerProj.Service
             return selectlist;
 
         }
-
         public BugCommentDetailsViewModel GetDetails(string id)
         {
             var model = new BugCommentDetailsViewModel();
@@ -89,8 +83,6 @@ namespace BugTrackerProj.Service
             model.Comments = _context.Comments.Where(c => c.BugId == id).Include(u=>u.User);
             return model;
         }
-
-
         public List<SelectListItem> GetProjects()
         {
             var projlist = _context.Projects.ToList();
@@ -111,7 +103,6 @@ namespace BugTrackerProj.Service
             var list = _context.Users.ToList();
             return list;
         }
-
         public List<string> GetUsers()
         {
             var list = _context.Users.Select(list => list.Id).ToList();
@@ -133,13 +124,41 @@ namespace BugTrackerProj.Service
         }
         public List<Bug> GetBugsByProject(string projectid)
         {
-            var list = _context.Bugs.FromSqlRaw($"select * from bugs where bugs.projectid={projectid}").Include(p => p.Category).Include(P => P.User).ToList();
+            var list = _context.Bugs.Where(p=>p.ProjectId==projectid).Include(p => p.Category).Include(P => P.User).ToList();
             return list;
         }
-
-
-
-
+        public MainPageViewModel CountProjectBugs(string projectid)
+        {
+            var model = new MainPageViewModel();
+            model.BugCounter = GetBugsByProject(projectid).Count();
+            return model;
+        }
+        public MainPageViewModel CountAllBugs()
+        {
+            var model = new MainPageViewModel();
+            model.BugCounter = GetAllBugs().Count();
+            return model;
+        }
+        public List<SelectListItem> GetUserRoles()
+        {
+            var roleList = _context.Roles.ToList();
+            var selectedlist = new List<SelectListItem>();
+            foreach (var item in roleList)
+            {
+                selectedlist.Add(new SelectListItem {Value=item.Name, Text=item.Name});
+            }
+            return selectedlist;
+        }
+        public List<SelectListItem> GetUserNames()
+        {
+            var roleList = _context.Users.ToList();
+            var selectedlist = new List<SelectListItem>();
+            foreach (var item in roleList)
+            {
+                selectedlist.Add(new SelectListItem { Value = item.UserName, Text = item.UserName });
+            }
+            return selectedlist;
+        }
     }
 }
 

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<BugTrackerProj.Data.ApplicationUser>
+
+<table border="1" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Project Name
+            </th>
+            <th>
+                User
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+    </thead>
+    <tbody class="tablebody">
+        @foreach (var user in Model)
+        {
+          
+                <tr>
+                    <td>
+                        @user.Email
+                    </td>
+                    <td>
+                        @user.UserName
+                    </td>
+                    <td>
+                        @user.FirstName
+                    </td>
+                    <td>
+                        @user.LastName
+                    </td>
+                </tr>
+
+        }
+    </tbody>
+</table>

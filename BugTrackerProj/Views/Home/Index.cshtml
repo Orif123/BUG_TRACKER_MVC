@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    ViewBag.projid = ViewContext.RouteData.Values["id"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model BugTrackerProj.ViewModels.MainPageViewModel
 <div class="text-center">
@@ -8,58 +8,15 @@
     <form method="post">
         <button type="submit" asp-action="Logout">LogOut</button>
     </form>
-    <form >
+    <form>
         <label asp-for="CategoryId" class="control-label"></label>
         @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "")
         <input type="submit" asp-action="Index" />
     </form>
-       
 
-    <table border="1" class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                  Project Name
-                </th>
-                <th>
-                   User
-                </th>
-                <th>
-                    Date
-                </th>
-                <th>
-                    Description
-                </th>
-            </tr>
-        </thead> 
-        <tbody class="tablebody">
-            @foreach (var bug in Model.Bugs)
-            {
-                @using (Html.BeginForm("BugDetails", "Home", new { id = bug.BugId }))
-                {
-                    <tr>
-                        <td>
-                            @bug.Category.CtaegoryName
-                        </td>
-                        <td>
-                            @bug.User.UserName
-                        </td>
-                        <td>
-                            @bug.BugDate
-                        </td>
-                        <td>
-                            @bug.Description
-                        </td>
-                        <td>
-                            <input type="submit" value="Solved" asp-action="BugDetails" asp-route-id="@bug.BugId" />
-                        </td>
-                    </tr>
 
-                }
-            }
-            </tbody>
-        </table>
+   @await Component.InvokeAsync("BugList")
 
-      
-  
-    </div>
+
+
+</div>

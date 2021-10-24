@@ -3,12 +3,23 @@
   "defaultProvider": "unpkg",
     "libraries": [
         {
-            "library": "@microsoft/signalr@5.0.11",
-            "destination": "wwwroot/microsoft/signalr/"
-        },
-        {
             "library": "webpack@5.58.2",
             "destination": "wwwroot/lib/webpack/"
+        },
+        {
+            "library": "@microsoft/signalr@5.0.11",
+            "destination": "wwwroot/microsoft/signalr/",
+            "files": [
+                "dist/browser/signalr.js"
+            ]
+        },
+        {
+            "provider": "cdnjs",
+            "library": "microsoft-signalr@5.0.11",
+            "destination": "wwwroot/lib/microsoft-signalr/",
+            "files": [
+                "signalr.js"
+            ]
         }
     ]
 }

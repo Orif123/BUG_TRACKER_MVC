@@ -6,7 +6,7 @@
         opts.Cookies.Add(new Cookie("ForceCookie", "NA", "/", url.DnsSafeHost));
     }).Build();
     connection.start();
-    connection.on("loadBugs", function () {
+    connection.on("loadBugs", function() {
         LoadBugData();
     })
     function LoadBugData() {

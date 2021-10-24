@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace BugTrackerProj.Controllers
 {
-   [Authorize(Roles = "CompanyManager, Admin")]
+    [Authorize(Roles = "CompanyManager, Admin")]
     public class AdminRoleController : Controller
     {
-        
+
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IBugService _bugService;
@@ -24,32 +24,36 @@ namespace BugTrackerProj.Controllers
             _userManager = userManager;
             _bugService = bugService;
         }
-        public  IActionResult Index(MainPageViewModel model)
+        public IActionResult Index(MainPageViewModel model)
         {
             if (User.IsInRole("CompanyManager"))
             {
-               model.Bugs = _bugService.GetAllBugs();
+                model.Bugs = _bugService.GetAllBugs().ToList();
                 return View(model);
             }
-            var userid =  _userManager.GetUserId(User);
-            var user = _bugService.GetRealUsers().SingleOrDefault(p => p.Id == userid);
-            model.Bugs=_bugService.GetBugsByProject(user.ProjectId);
+            var userid = _userManager.GetUserId(User);
+            var user = _bugService.GetRealUsers().ToList().SingleOrDefault(p => p.Id == userid);
+            model.Bugs = _bugService.GetBugsByProject(user.ProjectId);
             return View(model);
         }
-            
         [Authorize(Roles = "CompanyManager")]
         public IActionResult Create()
         {
+            var users= _bugService.GetUserNames().ToList();
+            ViewBag.Users = users;
+            var roles= _bugService.GetUserRoles().ToList();
+            ViewBag.Roles = roles;
             return View();
-        } 
+        }
         [HttpPost]
-        public async Task<IActionResult> Create(UserToRoleRegistraionViewModel model)
+        public async Task <IActionResult> Create(UserToRoleRegistraionViewModel model)
         {
             var IsRoleExists = await _roleManager.RoleExistsAsync(model.RoleName);
             if (IsRoleExists)
             {
                 var user = await _userManager.FindByNameAsync(model.Username);
                 await _userManager.AddToRoleAsync(user, model.RoleName);
+                return RedirectToAction("Index", "AdminRole");
             }
             return View();
         }
