@@ -2,6 +2,7 @@
 using BugTrackerProj.Service;
 using BugTrackerProj.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,29 +25,23 @@ namespace BugTrackerProj.Controllers
             _userManager = userManager;
             _bugService = bugService;
         }
+        [Authorize(Roles = "CompanyManager")]
         public IActionResult Index(MainPageViewModel model)
         {
-            if (User.IsInRole("CompanyManager"))
-            {
-                model.Bugs = _bugService.GetAllBugs().ToList();
-                return View(model);
-            }
-            var userid = _userManager.GetUserId(User);
-            var user = _bugService.GetRealUsers().ToList().SingleOrDefault(p => p.Id == userid);
-            model.Bugs = _bugService.GetBugsByProject(user.ProjectId);
+            model.Bugs = _bugService.GetAllBugs().ToList();
             return View(model);
         }
         [Authorize(Roles = "CompanyManager")]
         public IActionResult Create()
         {
-            var users= _bugService.GetUserNames().ToList();
+            var users = _bugService.GetUserNames().ToList();
             ViewBag.Users = users;
-            var roles= _bugService.GetUserRoles().ToList();
+            var roles = _bugService.GetUserRoles().ToList();
             ViewBag.Roles = roles;
             return View();
         }
         [HttpPost]
-        public async Task <IActionResult> Create(UserToRoleRegistraionViewModel model)
+        public async Task<IActionResult> Create(UserToRoleRegistraionViewModel model)
         {
             var IsRoleExists = await _roleManager.RoleExistsAsync(model.RoleName);
             if (IsRoleExists)
@@ -60,8 +55,12 @@ namespace BugTrackerProj.Controllers
         [HttpPost]
         public IActionResult Solved(string id)
         {
-            _bugService.BugSolved(id);
-            return RedirectToAction("Index", "AdminRole");
+            if (User.IsInRole("Admin") || User.IsInRole("CompanyManager"))
+            {
+                _bugService.BugSolved(id);
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index", "Home");
         }
 
 

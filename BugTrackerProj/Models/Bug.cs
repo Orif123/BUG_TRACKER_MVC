@@ -17,6 +17,8 @@ namespace BugTrackerProject.Models
         public DateTime BugDate { get; set; }
         [Required]
         public string  Description { get; set; }
+        [Required]
+        public string RepoLink { get; set; }
         [ForeignKey("CategoryId")]
         public string CategoryId { get; set; }
         public virtual Category Category { get; set; }

@@ -13,7 +13,7 @@
         var tr = ''
         $.ajax({
             url: ('https://localhost:44373/Home/Index'),
-            method: 'Get',
+            method: 'Post',
             success: (result) => {
                 $.each(result, (k, v) => {
                     tr += `<tr>

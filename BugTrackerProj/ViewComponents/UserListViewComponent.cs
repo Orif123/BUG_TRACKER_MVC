@@ -16,7 +16,7 @@ namespace BugTrackerProj.ViewComponents
         }
         public Task <IViewComponentResult> InvokeAsync()
         {
-            return Task.FromResult<IViewComponentResult>(View("Deafault" ,_bugService.GetRealUsers()));
+            return Task.FromResult<IViewComponentResult>(View());
         }
     }
 }

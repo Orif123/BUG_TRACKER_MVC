@@ -19,5 +19,6 @@ namespace BugTrackerProj.Data
         [MaxLength(450)]
         [ForeignKey("ProjectId")]
         public string ProjectId { get; set; }
+        public string PhotoPath { get; set; }
     }
 }

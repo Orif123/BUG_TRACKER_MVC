@@ -1,4 +1,4 @@
-﻿ @model BugTrackerProj.ViewModels.MainPageViewModel
+﻿@model BugTrackerProj.ViewModels.MainPageViewModel
 
 <table border="1" class="table table-striped">
     <thead>
@@ -37,13 +37,16 @@
                     </td>
                     <td>
                         <input type="submit" value="Details" asp-controller="Home" asp-action="BugDetails" asp-route-id="@bug.BugId" />
-                        <input type="submit" value="Solved" />
+                        @if (User.IsInRole("Admin")||User.IsInRole("CompanyManager"))
+                        {
+                        <input type="submit" value="Solved" onclick="" />
+                        }
                     </td>
                 </tr>
             }
         }
     </tbody>
 </table>
-            
-        }
-   
+
+
+

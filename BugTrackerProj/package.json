@@ -2,7 +2,7 @@
   "name": "BugTrackerProj",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "Program.cs",
   "dependencies": {
     "@microsoft/signalr": "^5.0.11",
     "webpack": "^5.58.2"

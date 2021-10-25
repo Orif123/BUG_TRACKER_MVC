@@ -31,8 +31,8 @@ namespace BugTrackerProj.Controllers
             _bugService = service;
             _hubContext = hubContext;
         }
-        [Authorize(Roles ="User")]
-        public async Task <IActionResult> Index(MainPageViewModel model, string userid = "")
+        [Authorize(Roles = "User, Admin")]
+        public async Task<IActionResult> Index(MainPageViewModel model, string userid = "")
         {
             userid = _userManager.GetUserId(User);
             var user = _bugService.GetRealUsers().SingleOrDefault(i => i.Id == userid);
@@ -43,24 +43,28 @@ namespace BugTrackerProj.Controllers
 
         public IActionResult NewBug()
         {
-            
             var user = _bugService.GetRealUsers().SingleOrDefault(u => u.Id == _userManager.GetUserId(User));
             ViewBag.CategoryId = _bugService.GetCategories(user.ProjectId);
             return View();
         }
         [HttpPost]
-        public  IActionResult Add(NewBugViewModel model)
+        public IActionResult Add(NewBugViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var bug = new Bug() {
-                    UserId = _userManager.GetUserId(User),
-                    CategoryId = model.CategoryId,
-                    Description=model.Description
-            };
-                _bugService.NewBug(bug);
-               
-                return RedirectToAction("Index", "Home");
+                if (!User.IsInRole("CompanyManager"))
+                {
+
+                    var bug = new Bug()
+                    {
+                        UserId = _userManager.GetUserId(User),
+                        CategoryId = model.CategoryId,
+                        Description = model.Description
+                    };
+                    _bugService.NewBug(bug);
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Index", "AdminRole");
             }
             return RedirectToAction("NewBug");
         }
@@ -75,11 +79,11 @@ namespace BugTrackerProj.Controllers
             {
                 model.UserId = _userManager.GetUserId(User);
                 _bugService.AddComment(model);
-                return RedirectToAction("BugDetails", new {id=model.BugId });
+                return RedirectToAction("BugDetails", new { id = model.BugId });
             }
             return RedirectToAction("BugDetails");
         }
-        
+
 
         public IActionResult Privacy()
         {
@@ -91,9 +95,9 @@ namespace BugTrackerProj.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
-       
-            
+
+
     }
 
-    
+
 }

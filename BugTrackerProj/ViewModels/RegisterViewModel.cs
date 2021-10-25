@@ -1,4 +1,5 @@
 ﻿using BugTrackerProject.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,6 +27,7 @@ namespace BugTrackerProj.ViewModels
         public string LastName { get; set; }
         [Required]
         public string ProjectId { get; set; }
+        public IFormFile Photo { get; set; }
 
     }
 }

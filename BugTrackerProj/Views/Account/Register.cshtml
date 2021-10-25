@@ -6,7 +6,7 @@
 }
 
 <h1>Register</h1>
-<form method="post" style="left:50%;">
+<form method="post" style="left:50%;" enctype="multipart/form-data">
     <div>
         <label class="form-label" asp-for="Email"></label>
         <input class="form-control" asp-for="Email" />
@@ -22,27 +22,32 @@
     <div>
         <label class="form-label" asp-for="ConfirmPassword"></label>
         <input placeholder="Please drop your link here..." class="form-control" asp-for="ConfirmPassword" />
-        <span asp-validation-for="ConfirmPassword"class="text text-danger"></span>
+        <span asp-validation-for="ConfirmPassword" class="text text-danger"></span>
     </div>
 
     <div>
         <label class="form-label" asp-for="FirstName"></label>
         <textarea class="form-control" asp-for="FirstName"> </textarea>
         <span asp-validation-for="FirstName" class="text text-danger"></span>
-    </div>   
+    </div>
     <div>
         <label class="form-label" asp-for="LastName"></label>
         <textarea class="form-control" asp-for="LastName"> </textarea>
         <span asp-validation-for="LastName" class="text text-danger"></span>
     </div>
     <div>
+        <label class="form-label " asp-for="Photo"></label>
+        <input class="form-control " asp-for="Photo"> />
+        <span asp-validation-for="Photo" class="text text-danger"></span>
+    </div>
+    <div>
         <div class="form-group">
             <label asp-for="ProjectId" class="control-label"></label>
             @Html.DropDownListFor(m => m.ProjectId,
-        new List<SelectListItem>(ViewBag.ProjectId  ), "Select Project ")
+        new List<SelectListItem>(ViewBag.ProjectId), "Select Project ")
         </div>
     </div>
     <p>
-        <input type="submit"  class="btn btn-success"  asp-action="NewAccount" />
+        <input type="submit" class="btn btn-success" asp-action="NewAccount" />
     </p>
 </form>

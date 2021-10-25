@@ -28,6 +28,7 @@ namespace BugTrackerProj.Service
         MainPageViewModel CountAllBugs();
         List<SelectListItem> GetUserRoles();
         List<SelectListItem> GetUserNames();
+        List<ApplicationUser> GetUserByProject(string projectid);
 
 
     }

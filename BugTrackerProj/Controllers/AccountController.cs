@@ -2,10 +2,12 @@
 using BugTrackerProj.Service;
 using BugTrackerProj.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,8 +18,10 @@ namespace BugTrackerProj.Controllers
         private readonly IBugService _bugService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService bugService)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService bugService, IWebHostEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _bugService = bugService;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -32,13 +36,22 @@ namespace BugTrackerProj.Controllers
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = null;
+                if (model.Photo != null)
+                {
+                    var uploadsfolder = Path.Combine(_hostingEnvironment.WebRootPath, "Assets");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    var filePath = Path.Combine(uploadsfolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
                 var user = new ApplicationUser()
                 {
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    ProjectId = model.ProjectId
+                    ProjectId = model.ProjectId,
+                    PhotoPath = uniqueFileName ?? "deafaultphoto.jfif"
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 await _userManager.AddToRoleAsync(user, "User");
@@ -46,9 +59,9 @@ namespace BugTrackerProj.Controllers
                 {
                     return View(model);
                 }
-                return RedirectToAction("Index", "Home"); 
+                return RedirectToAction("Index", "Home");
             }
-           
+
             return View();
         }
         public IActionResult Login()
@@ -67,7 +80,11 @@ namespace BugTrackerProj.Controllers
                 {
                     if (_signInManager.IsSignedIn(User))
                     {
-                        return RedirectToAction("Index", "Home", _userManager.GetUserId(User));
+                        if (User.IsInRole("CompanyManager"))
+                        {
+                            return RedirectToAction("Index", "AdminRole");
+                        }
+                        return RedirectToAction("Index", "Home");
                     }
 
                     ModelState.AddModelError(string.Empty, "Invalid Login Attempt");

@@ -159,6 +159,11 @@ namespace BugTrackerProj.Service
             }
             return selectedlist;
         }
+        public List<ApplicationUser> GetUserByProject(string projectid)
+        {
+            var list = _context.Users.Where(u => u.ProjectId == projectid).Include(u => u.Project).ToList();
+            return list;
+        }
     }
 }
 

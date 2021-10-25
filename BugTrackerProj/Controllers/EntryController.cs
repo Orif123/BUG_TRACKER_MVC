@@ -1,5 +1,6 @@
 ﻿using BugTrackerProj.Data;
 using BugTrackerProj.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,6 +19,7 @@ namespace BugTrackerProj.Controllers
             _bugService = bugService;
             _userManager = userManager;
         }
+        [Authorize(Roles ="User, Admin, CompanyManager")]
         public IActionResult HomePage(string projectid)
         {
             if (User.IsInRole("CompanyManager"))
@@ -32,7 +34,7 @@ namespace BugTrackerProj.Controllers
         [HttpPost]
         public IActionResult Navigate()
         {
-            if (User.IsInRole("CompanyManager")|| User.IsInRole("Admin"))
+            if (User.IsInRole("CompanyManager"))
             {
                 return RedirectToAction("Index", "AdminRole");
             }
