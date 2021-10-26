@@ -1,0 +1,26 @@
+﻿@model IEnumerable<BugTrackerProject.Models.Project>
+
+@{
+    ViewData["Title"] = "GetProjects";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>GetCategories</h1>
+
+<div>
+    @foreach (var project in Model)
+    {
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </dt>
+            <dd class="col-sm-10">
+                @project.ProjectName
+            </dd>
+        </dl>
+    }
+</div>
+<div>
+    <input type="submit" />
+</div>

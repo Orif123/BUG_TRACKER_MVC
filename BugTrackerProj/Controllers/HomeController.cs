@@ -1,4 +1,5 @@
 ﻿using BugTrackerProj.Data;
+using BugTrackerProj.Models;
 using BugTrackerProj.Service;
 using BugTrackerProj.ViewModels;
 using BugTrackerProject.Models;
@@ -52,16 +53,16 @@ namespace BugTrackerProj.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!User.IsInRole("CompanyManager"))
-                {
-
                     var bug = new Bug()
                     {
                         UserId = _userManager.GetUserId(User),
                         CategoryId = model.CategoryId,
-                        Description = model.Description
+                        Description = model.Description,
+                        RepoLink = model.RepoLink
                     };
                     _bugService.NewBug(bug);
+                if (!User.IsInRole("CompanyManager"))
+                {
                     return RedirectToAction("Index", "Home");
                 }
                 return RedirectToAction("Index", "AdminRole");
@@ -95,6 +96,7 @@ namespace BugTrackerProj.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
+        
 
 
     }

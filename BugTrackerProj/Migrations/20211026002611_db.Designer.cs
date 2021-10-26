@@ -4,14 +4,16 @@ using BugTrackerProj.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BugTrackerProj.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211026002611_db")]
+    partial class db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,8 +193,6 @@ namespace BugTrackerProj.Migrations
                     b.HasKey("CategoryId");
 
                     b.HasIndex("Categories");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("Categories");
 
@@ -426,13 +426,9 @@ namespace BugTrackerProj.Migrations
 
             modelBuilder.Entity("BugTrackerProject.Models.Category", b =>
                 {
-                    b.HasOne("BugTrackerProject.Models.Project", null)
+                    b.HasOne("BugTrackerProject.Models.Project", "Project")
                         .WithMany("Categories")
                         .HasForeignKey("Categories");
-
-                    b.HasOne("BugTrackerProject.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

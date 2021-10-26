@@ -9,11 +9,6 @@ namespace BugTrackerProj.ViewComponents
 {
     public class UserList: ViewComponent
     {
-        private readonly IBugService _bugService;
-        public UserList(IBugService bugService)
-        {
-            _bugService = bugService;
-        }
         public Task <IViewComponentResult> InvokeAsync()
         {
             return Task.FromResult<IViewComponentResult>(View());

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BugTrackerProject.Models.Category>
+
+@{
+    ViewData["Title"] = "GetCategories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>GetCategories</h1>
+
+<div>
+    @foreach (var category in Model)
+    {
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CtaegoryName)
+        </dt>
+        <dd class = "col-sm-10">
+            @category.CtaegoryName
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Project.ProjectName)
+        </dt>
+        <dd class = "col-sm-10">
+            @category.Project.ProjectName
+        </dd>
+    </dl>
+    }
+</div>
+<div>
+    <input type="submit" />
+</div>

@@ -28,8 +28,8 @@ namespace BugTrackerProj.Service
             {
                 CommentId = Guid.NewGuid().ToString(),
                 Text = model.CommentText,
-                BugId=model.BugId,
-                UserId=model.UserId
+                BugId = model.BugId,
+                UserId = model.UserId
             };
 
             _context.Comments.Add(comment);
@@ -50,8 +50,8 @@ namespace BugTrackerProj.Service
             var project = _context.Projects.SingleOrDefault(p => p.ProjectId == user.ProjectId);
             if (model.CategoryId == "" || model.CategoryId == null)
             {
-                
-                model.Bugs = _context.Bugs.Where(b => b.ProjectId == user.ProjectId).Include(u=>u.Category).Include(u=>u.Project).Include(u=>u.User);
+
+                model.Bugs = _context.Bugs.Where(b => b.ProjectId == user.ProjectId).Include(u => u.Category).Include(u => u.Project).Include(u => u.User);
                 return model;
             }
             model.Bugs = GetBugsByCategoryId(model.CategoryId);
@@ -79,8 +79,8 @@ namespace BugTrackerProj.Service
         public BugCommentDetailsViewModel GetDetails(string id)
         {
             var model = new BugCommentDetailsViewModel();
-            model.Bug = _context.Bugs.Where(p=>p.BugId==id).Include(c=>c.Category).Include(c=>c.User).Include(c=>c.Project).ToList();
-            model.Comments = _context.Comments.Where(c => c.BugId == id).Include(u=>u.User);
+            model.Bug = _context.Bugs.Where(p => p.BugId == id).Include(c => c.Category).Include(c => c.User).Include(c => c.Project).ToList();
+            model.Comments = _context.Comments.Where(c => c.BugId == id).Include(u => u.User);
             return model;
         }
         public List<SelectListItem> GetProjects()
@@ -89,7 +89,7 @@ namespace BugTrackerProj.Service
             var selectlist = new List<SelectListItem>();
             foreach (var item in projlist)
             {
-                    selectlist.Add(new SelectListItem { Text = item.ProjectName, Value = item.ProjectId });
+                selectlist.Add(new SelectListItem { Text = item.ProjectName, Value = item.ProjectId });
             }
             return selectlist;
         }
@@ -124,7 +124,7 @@ namespace BugTrackerProj.Service
         }
         public List<Bug> GetBugsByProject(string projectid)
         {
-            var list = _context.Bugs.Where(p=>p.ProjectId==projectid).Include(p => p.Category).Include(P => P.User).ToList();
+            var list = _context.Bugs.Where(p => p.ProjectId == projectid).Include(p => p.Category).Include(P => P.User).ToList();
             return list;
         }
         public MainPageViewModel CountProjectBugs(string projectid)
@@ -145,7 +145,7 @@ namespace BugTrackerProj.Service
             var selectedlist = new List<SelectListItem>();
             foreach (var item in roleList)
             {
-                selectedlist.Add(new SelectListItem {Value=item.Name, Text=item.Name});
+                selectedlist.Add(new SelectListItem { Value = item.Name, Text = item.Name });
             }
             return selectedlist;
         }
@@ -162,6 +162,84 @@ namespace BugTrackerProj.Service
         public List<ApplicationUser> GetUserByProject(string projectid)
         {
             var list = _context.Users.Where(u => u.ProjectId == projectid).Include(u => u.Project).ToList();
+            return list;
+        }
+        public UpdateUserViewModel FindUserById(string id)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Id == id);
+            var model = new UpdateUserViewModel()
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                ProjectId = user.ProjectId,
+            };
+            return model;
+        }
+        public ApplicationUser GetUserById(string id)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Id == id);
+            return user;
+        }
+        public UserBugsViewModel GetBugsByUserId(string id)
+        {
+            var model = new UserBugsViewModel();
+            model.User = _context.Users.Include(p=>p.Project).SingleOrDefault(u => u.Id == id);
+            model.Bugs = _context.Bugs.Where(b => b.UserId == id).Include(b=>b.Category).ToList();
+            model.BugCounter = model.Bugs.Count();
+            return model;
+        }
+
+        public void NewCategory(NewCategoryViewModel model)
+        {
+            var category = new Category()
+            {
+                CategoryId = Guid.NewGuid().ToString(),
+                CtaegoryName=model.CategoryName,
+                ProjectId=model.ProjectId
+        };
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+        }
+
+        public void DeleteCategory(string id)
+        {
+           var category= _context.Categories.SingleOrDefault(p => p.CategoryId == id);
+            var bugs=_context.Bugs.Where(c => c.CategoryId == category.CategoryId);
+            foreach (var bug in bugs)
+            {
+                BugSolved(bug.BugId);
+            }
+            _context.Bugs.RemoveRange(bugs);
+            _context.Categories.Remove(category);
+            _context.SaveChanges();
+        }
+
+        public void NewProject(Project project)
+        {
+            project.ProjectId = Guid.NewGuid().ToString();
+            _context.Projects.Add(project);
+            _context.SaveChanges();
+        }
+
+        public void DeleteProject(string id)
+        {
+            var project = _context.Projects.SingleOrDefault(p => p.ProjectId == id);
+            var bugs = _context.Bugs.Where(c => c.ProjectId == project.ProjectId);
+            foreach (var bug in bugs)
+            {
+                BugSolved(bug.BugId);
+            }
+            var categories = _context.Categories.Where(c => c.ProjectId == project.ProjectId);
+            var users = _context.Users.Where(c => c.ProjectId == project.ProjectId);
+            _context.Categories.RemoveRange(categories);
+            _context.Users.RemoveRange(users);
+            _context.Remove(project);
+            _context.SaveChanges();
+        }
+        public List<Category> GetAllCategories()
+        {
+            var list = _context.Categories.Include(p=>p.Project).ToList();
             return list;
         }
     }

@@ -1,0 +1,73 @@
+﻿@model BugTrackerProj.ViewModels.UserBugsViewModel
+@{
+    ViewData["Title"] = "UserDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="text-align:center">UserDetails</h1>
+<div>
+    <div class="card" style="width:400px; left:35%">
+        <img style="height:320px; width:400px; left:50%; text-align:center" src="~/Assets/@Model.User.PhotoPath" class="card-img" />
+        <div class="card-body">
+            <h5 class="card-title"><small class="text-muted">First Name:</small> @Model.User.FirstName</h5>
+            <div class="card-text">
+                <p><small class="text-muted">Last Name:</small> @Model.User.LastName</p>
+                <p><small class="text-muted">Email Address:</small> @Model.User.Email</p>
+                <p><small class="text-muted">Project:</small> @Model.User.Project.ProjectName</p>
+                <p><small class="text-muted">Open Bugs:</small> @Model.BugCounter</p>
+            </div>
+            <a class="btn comment-button" asp-controller="UserList" asp-action="Index">Back</a>
+        </div>
+    </div>
+    <h1 class="details">Comments</h1>
+
+    }
+    <table border="1" class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Project Name
+                </th>
+                <th>
+                    User
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bug in Model.Bugs)
+            {
+                @using (Html.BeginForm("Solved", "AdminRole", new { id = bug.BugId }))
+                {
+                    <tr>
+                        <td>
+                            @bug.Category.CtaegoryName
+                        </td>
+                        <td>
+                            @bug.User.UserName
+                        </td>
+                        <td>
+                            @bug.BugDate
+                        </td>
+                        <td>
+                            @bug.Description
+                        </td>
+                        <td>
+                            <input type="submit" value="Details" asp-controller="Home" asp-action="BugDetails" asp-route-id="@bug.BugId" />
+                            @if (User.IsInRole("Admin") || User.IsInRole("CompanyManager"))
+                            {
+                                <input type="submit" value="Solved" onclick="" />
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+

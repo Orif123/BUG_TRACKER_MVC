@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BugTrackerProj.Data.ApplicationUser>
+﻿@model IEnumerable<BugTrackerProj.Models.ApplicationUser>
 
 <table border="1" class="table table-striped">
     <thead>
@@ -20,13 +20,15 @@
             </th>
         </tr>
     </thead>
-    <tbody class="tablebody">
-        @foreach (var user in Model)
-        {
-          
+    @foreach (var user in Model)
+    {
+        <form method="get">
+
+            <tbody class="tablebody">
+
                 <tr>
                     <td>
-                        <img src="~/Assets/@user.PhotoPath" width="70" height="70"/>
+                        <img src="~/Assets/@user.PhotoPath" width="70" height="70" />
                     </td>
                     <td>
                         @user.Email
@@ -40,8 +42,14 @@
                     <td>
                         @user.LastName
                     </td>
+                    <td>
+                        <input type="submit" value="Update" asp-action="UpdateUser" asp-route-id="@user.Id" />
+                    </td> <td>
+                        <input type="submit" value="Details"  asp-action="UserDetails" asp-route-id="@user.Id" />
+                    </td>
                 </tr>
 
-        }
-    </tbody>
+            </tbody>
+        </form>
+    }
 </table>

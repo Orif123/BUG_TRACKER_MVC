@@ -1,6 +1,8 @@
 ﻿using BugTrackerProj.Data;
+using BugTrackerProj.Models;
 using BugTrackerProj.Service;
 using BugTrackerProj.ViewModels;
+using BugTrackerProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -62,6 +64,45 @@ namespace BugTrackerProj.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+        public IActionResult CreateCategory()
+        {
+            ViewBag.ProjectId = _bugService.GetProjects().ToList();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateCategory(NewCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _bugService.NewCategory(model);
+                return RedirectToAction("Index", "AdminRole");
+            }
+            return View();
+        }
+        public IActionResult CreateProject()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateProject(Project project)
+        {
+            if (ModelState.IsValid)
+            {
+                _bugService.NewProject(project);
+                return RedirectToAction("Index", "AdminRole");
+            }
+            return View();
+        }
+        public IActionResult GetCategories()
+        {
+            return View(_bugService.GetAllCategories());
+        }
+        public IActionResult GetProjects()
+        {
+            return View(_bugService.GetRealProjects());
+        }
+        
+
 
 
     }

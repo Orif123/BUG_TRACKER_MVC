@@ -1,4 +1,5 @@
 ﻿using BugTrackerProj.Data;
+using BugTrackerProj.Models;
 using BugTrackerProj.Service;
 using BugTrackerProj.ViewModels;
 using Microsoft.AspNetCore.Authorization;

@@ -20,4 +20,10 @@ namespace BugTrackerProj.ViewModels
         public string BugId { get; set; }
         public string UserId { get; set; }
     }
+    public class UserBugsViewModel
+    {
+        public ApplicationUser User { get; set; }
+        public IEnumerable<Bug> Bugs { get; set; }
+        public int BugCounter { get; set; }
+    }
 }

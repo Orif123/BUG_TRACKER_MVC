@@ -30,4 +30,17 @@ namespace BugTrackerProj.ViewModels
         public IFormFile Photo { get; set; }
 
     }
+    public class UpdateUserViewModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        public string ProjectId { get; set; }
+        public IFormFile Photo { get; set; }
+    }
 }

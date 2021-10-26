@@ -1,0 +1,23 @@
+﻿@model BugTrackerProj.ViewModels.NewCategoryViewModel
+@{
+    ViewData["Title"] = "CreateCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CreateCategory</h1>
+<form method="post">
+    <div>
+        <label asp-for="CategoryName" class="control-label"></label>
+        <input asp-for="CategoryName" class="form-control" />
+        <span asp-validation-for="CategoryName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="ProjectId" class="control-label"></label>
+        @Html.DropDownListFor(m => m.ProjectId, new List<SelectListItem>(ViewBag.ProjectId), "Choose Project")
+        <input type="submit" asp-action="CreateCategory" />
+    </div>
+
+
+
+</form>
+

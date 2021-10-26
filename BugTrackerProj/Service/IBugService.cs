@@ -1,4 +1,5 @@
 ﻿using BugTrackerProj.Data;
+using BugTrackerProj.Models;
 using BugTrackerProj.ViewModels;
 using BugTrackerProject.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,7 +30,13 @@ namespace BugTrackerProj.Service
         List<SelectListItem> GetUserRoles();
         List<SelectListItem> GetUserNames();
         List<ApplicationUser> GetUserByProject(string projectid);
-
-
+        UpdateUserViewModel FindUserById(string id);
+        ApplicationUser GetUserById(string id);
+        UserBugsViewModel GetBugsByUserId(string id);
+        void NewCategory(NewCategoryViewModel model);
+        void DeleteCategory(string id);
+        void NewProject(Project project);
+        void DeleteProject(string id);
+        List<Category> GetAllCategories();
     }
 }
