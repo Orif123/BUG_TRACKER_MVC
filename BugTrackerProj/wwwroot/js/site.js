@@ -1,46 +1,10 @@
-﻿import { signalR } from "../microsoft/signalr/dist/browser/signalr"
+﻿import { signalR } from "../lib/aspnet/signalr/dist/browser/signalr";
 
+console.log("Hello From Site")
+var connection = new signalR.HubConnectionBuilder("Application").Build();
+connection.start().then(() => console.log("Connected")).catch((err) => console.log(err));
 
-(() => {
-    var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44373/ApplicationHub", opts => {
-        opts.Cookies.Add(new Cookie("ForceCookie", "NA", "/", url.DnsSafeHost));
-    }).Build();
-    connection.start();
-    connection.on("loadBugs", function() {
-        LoadBugData();
-    })
-    function LoadBugData() {
-        var tr = ''
-        $.ajax({
-            url: ('https://localhost:44373/Home/Index'),
-            method: 'Post',
-            success: (result) => {
-                $.each(result, (k, v) => {
-                    tr += `<tr>
-                        <td>
-                            ${v.Category.CtaegoryName}
-                        </td>
-                        <td>
-                            ${v.User.UserName}
-                        </td>
-                        <td>
-                            ${v.BugDate}
-                        </td>
-                        <td>
-                            ${v.Description}
-                        </td>
-                       </tr>`
-                })
-                $("#tablebody").html(tr);
+//connection.on("NewBugReceived", newBug=>{
+//LoadBugData();
 
-                error: (error) =>
-                    console.log(error);
-            }
-
-
-        }
-
-        )
-    }
-
-})
+//});

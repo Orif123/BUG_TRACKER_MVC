@@ -3,6 +3,7 @@ using BugTrackerProj.Models;
 using BugTrackerProj.ViewModels;
 using BugTrackerProject.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,7 +18,7 @@ namespace BugTrackerProj.Service
     {
         private readonly IHttpContextAccessor _httpContext;
         private readonly ApplicationDbContext _context;
-        public BugService(ApplicationDbContext context, IHttpContextAccessor contextAccessor)
+        public BugService(ApplicationDbContext context, IHttpContextAccessor contextAccessor, UserManager <ApplicationUser> userManager)
         {
             _httpContext = contextAccessor;
             _context = context;
@@ -44,7 +45,7 @@ namespace BugTrackerProj.Service
             _context.Remove(bug);
             _context.SaveChanges();
         }
-        public MainPageViewModel GetAllBugs(MainPageViewModel model, string userid = "")
+        public MainPageViewModel GetAllUserBugs(MainPageViewModel model, string userid = "")
         {
             var user = _context.Users.SingleOrDefault(u => u.Id == userid);
             var project = _context.Projects.SingleOrDefault(p => p.ProjectId == user.ProjectId);
@@ -57,9 +58,20 @@ namespace BugTrackerProj.Service
             model.Bugs = GetBugsByCategoryId(model.CategoryId);
             return model;
         }
+        public MainPageViewModel GetAllBugsManager(MainPageViewModel model)
+        {
+            if (model.CategoryId == "" || model.CategoryId == null)
+            {
+
+                model.Bugs = GetAllBugs();
+                return model;
+            }
+            model.Bugs = GetBugsByCategoryId(model.CategoryId);
+            return model;
+        }
         public List<Bug> GetBugsByCategoryId(string id)
         {
-            var list = _context.Bugs.FromSqlRaw($"select * from Bugs Where bugs.categoryid={id}").Include(p => p.Category).Include(P => P.Project).Include(P => P.User).ToList();
+            var list = _context.Bugs.Where(b=>b.CategoryId==id).Include(p => p.Category).Include(P => P.Project).Include(P => P.User).ToList();
             return list;
         }
         public List<SelectListItem> GetCategories(string id)
@@ -74,7 +86,16 @@ namespace BugTrackerProj.Service
                 }
             }
             return selectlist;
-
+        }
+        public List<SelectListItem> ListItemCategories()
+        {
+            var categolist = _context.Categories.ToList();
+            var selectlist = new List<SelectListItem>();
+            foreach (var item in categolist)
+            {
+                selectlist.Add(new SelectListItem { Text = item.CtaegoryName, Value = item.CategoryId });
+            }
+            return selectlist;
         }
         public BugCommentDetailsViewModel GetDetails(string id)
         {
@@ -205,12 +226,11 @@ namespace BugTrackerProj.Service
         public void DeleteCategory(string id)
         {
            var category= _context.Categories.SingleOrDefault(p => p.CategoryId == id);
-            var bugs=_context.Bugs.Where(c => c.CategoryId == category.CategoryId);
+            var bugs=_context.Bugs.Where(c => c.CategoryId == category.CategoryId).ToList();
             foreach (var bug in bugs)
             {
                 BugSolved(bug.BugId);
             }
-            _context.Bugs.RemoveRange(bugs);
             _context.Categories.Remove(category);
             _context.SaveChanges();
         }
@@ -225,7 +245,7 @@ namespace BugTrackerProj.Service
         public void DeleteProject(string id)
         {
             var project = _context.Projects.SingleOrDefault(p => p.ProjectId == id);
-            var bugs = _context.Bugs.Where(c => c.ProjectId == project.ProjectId);
+            var bugs = _context.Bugs.Where(c => c.ProjectId == project.ProjectId).ToList();
             foreach (var bug in bugs)
             {
                 BugSolved(bug.BugId);

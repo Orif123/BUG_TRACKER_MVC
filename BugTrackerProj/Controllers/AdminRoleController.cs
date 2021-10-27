@@ -30,8 +30,8 @@ namespace BugTrackerProj.Controllers
         [Authorize(Roles = "CompanyManager")]
         public IActionResult Index(MainPageViewModel model)
         {
-            model.Bugs = _bugService.GetAllBugs().ToList();
-            return View(model);
+            ViewBag.CategoryId = _bugService.ListItemCategories();
+            return View(_bugService.GetAllBugsManager(model));
         }
         [Authorize(Roles = "CompanyManager")]
         public IActionResult Create()
@@ -100,6 +100,18 @@ namespace BugTrackerProj.Controllers
         public IActionResult GetProjects()
         {
             return View(_bugService.GetRealProjects());
+        }
+        [HttpPost]
+        public IActionResult DeleteProject(string id)
+        {
+            _bugService.DeleteProject(id);
+            return RedirectToAction("GetProjects");
+        }
+        [HttpPost]
+        public IActionResult DeleteCategory(string id)
+        {
+            _bugService.DeleteCategory(id);
+            return RedirectToAction("GetProjects");
         }
         
 

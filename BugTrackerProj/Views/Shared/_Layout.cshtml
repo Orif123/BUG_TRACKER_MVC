@@ -23,16 +23,22 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Entry" asp-action="HomePage">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" type="submit"  asp-area="" asp-controller="Home" asp-action="NewBug">Upload an Issue</a>
+                                <a class="nav-link text-dark" type="submit" asp-area="" asp-controller="Home" asp-action="NewBug">Upload an Issue</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" type="submit"  asp-area="" asp-controller="Entry" asp-action="Navigate">Bug Table</a>
+                                <a class="nav-link text-dark" type="submit" asp-area="" asp-controller="Entry" asp-action="Navigate">Bug Table</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" type="submit"  asp-area="" asp-controller="UserList" asp-action="Index">Contact List</a>
+                                <a class="nav-link text-dark" type="submit" asp-area="" asp-controller="UserList" asp-action="Index">Contact List</a>
                             </li>
-                </ul>
-            </div>
+                            <li class="nav-item" style="left:80%">
+                                <a class="nav-link" asp-controller="AdminRole" asp-action="GetCategories">Categories Control</a>
+                            </li>
+                            <li class="nav-item" style="left:70%">
+                                <a class="nav-link" asp-controller="AdminRole" asp-action="GetProjects">Projects Control</a>
+                            </li>
+                        </ul>
+                    </div>
                 </form>
             </div>
         </nav>
@@ -48,7 +54,7 @@
             &copy; 2021 - BugTrackerProj - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/microsoft-signalr/signalr.js"></script>
+    <script src="~/lib/aspnet/signalr/dist/browser/signalr.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="~/js/site.js" asp-append-version="true"></script>

@@ -22,7 +22,7 @@ namespace BugTrackerProj
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
+            services.AddSignalR(cfg=>cfg.EnableDetailedErrors=true);
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -67,7 +67,7 @@ namespace BugTrackerProj
 
             app.UseEndpoints(endpoints =>
             { 
-                endpoints.MapHub<ApplicationHub>("/ApplicationHub");
+                endpoints.MapHub<ApplicationHub>("Application");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Entry}/{action=HomePage}/{id?}");

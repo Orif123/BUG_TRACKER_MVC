@@ -1,52 +1,59 @@
 ﻿@model BugTrackerProj.ViewModels.MainPageViewModel
+    <div>
 
-<table border="1" class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                Project Name
-            </th>
-            <th>
-                User
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Description
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var bug in Model.Bugs)
-        {
-            @using (Html.BeginForm("Solved", "AdminRole", new { id = bug.BugId }))
+        <form>
+            <label asp-for="CategoryId" class="control-label"></label>
+            @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "")
+            <input type="submit" asp-action="Index" />
+        </form>
+    </div>
+    <table border="1" class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Project Name
+                </th>
+                <th>
+                    User
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bug in Model.Bugs)
             {
-                <tr>
-                    <td>
-                        @bug.Category.CtaegoryName
-                    </td>
-                    <td>
-                        @bug.User.UserName
-                    </td>
-                    <td>
-                        @bug.BugDate
-                    </td>
-                    <td>
-                        @bug.Description
-                    </td>
-                    <td>
-                        <input type="submit" value="Details" asp-controller="Home" asp-action="BugDetails" asp-route-id="@bug.BugId" />
-                        @if (User.IsInRole("Admin")||User.IsInRole("CompanyManager"))
-                        {
-                        <input type="submit" value="Solved" onclick="" />
-                        }
-                    </td>
-                </tr>
+                @using (Html.BeginForm("Solved", "AdminRole", new { id = bug.BugId }))
+                {
+                    <tr>
+                        <td>
+                            @bug.Category.CtaegoryName
+                        </td>
+                        <td>
+                            @bug.User.UserName
+                        </td>
+                        <td>
+                            @bug.BugDate
+                        </td>
+                        <td>
+                            @bug.Description
+                        </td>
+                        <td>
+                            <input type="submit" value="Details" asp-controller="Home" asp-action="BugDetails" asp-route-id="@bug.BugId" />
+                            @if (User.IsInRole("Admin") || User.IsInRole("CompanyManager"))
+                            {
+                                <input type="submit" value="Solved" onclick="" />
+                            }
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
 
 

@@ -6,27 +6,30 @@
 }
 
 <h1>GetCategories</h1>
-
-<div>
+<input type="submit" asp-action="CreateProject"/>
     @foreach (var category in Model)
     {
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CtaegoryName)
-        </dt>
-        <dd class = "col-sm-10">
-            @category.CtaegoryName
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Project.ProjectName)
-        </dt>
-        <dd class = "col-sm-10">
-            @category.Project.ProjectName
-        </dd>
-    </dl>
+        @using (Html.BeginForm("DeleteCategory", "AdminRole", new { id = category.CategoryId }))
+        {
+            <div>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CtaegoryName)
+                </dt>
+                <dd class="col-sm-10">
+                    @category.CtaegoryName
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Project.ProjectName)
+                </dt>
+                <dd class="col-sm-10">
+                    @category.Project.ProjectName
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <input type="submit" />
+        </div>
     }
-</div>
-<div>
-    <input type="submit" />
-</div>
+    }

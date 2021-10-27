@@ -12,7 +12,8 @@ namespace BugTrackerProj.Service
 {
     public interface IBugService
     {
-        MainPageViewModel GetAllBugs( MainPageViewModel model, string projectid);
+        MainPageViewModel GetAllUserBugs( MainPageViewModel model, string projectid);
+        MainPageViewModel GetAllBugsManager(MainPageViewModel model);
         void NewBug(Bug bug);
         List<SelectListItem> GetCategories(string id);
         List<string> GetUsers();
@@ -38,5 +39,6 @@ namespace BugTrackerProj.Service
         void NewProject(Project project);
         void DeleteProject(string id);
         List<Category> GetAllCategories();
+        List<SelectListItem> ListItemCategories();
     }
 }

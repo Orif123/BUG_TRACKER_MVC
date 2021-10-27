@@ -8,11 +8,7 @@
     <form method="post">
         <button type="submit" asp-action="Logout">LogOut</button>
     </form>
-    <form>
-        <label asp-for="CategoryId" class="control-label"></label>
-        @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "")
-        <input type="submit" asp-action="Index" />
-    </form>
+    
 
 
    @await Component.InvokeAsync("BugList")

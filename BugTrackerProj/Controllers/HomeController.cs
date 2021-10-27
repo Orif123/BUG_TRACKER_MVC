@@ -32,14 +32,13 @@ namespace BugTrackerProj.Controllers
             _bugService = service;
             _hubContext = hubContext;
         }
-        [Authorize(Roles = "User, Admin")]
+        [Authorize(Roles = "User, Admin, CompanyManager")]
         public async Task<IActionResult> Index(MainPageViewModel model, string userid = "")
         {
             userid = _userManager.GetUserId(User);
             var user = _bugService.GetRealUsers().SingleOrDefault(i => i.Id == userid);
             ViewBag.CategoryId = _bugService.GetCategories(user.ProjectId);
-            await _hubContext.Clients.All.SendAsync("loadBugs");
-            return View(_bugService.GetAllBugs(model, userid));
+            return View(_bugService.GetAllUserBugs(model, userid));
         }
 
         public IActionResult NewBug()
@@ -49,18 +48,19 @@ namespace BugTrackerProj.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Add(NewBugViewModel model)
+        public async Task<IActionResult> Add(NewBugViewModel model)
         {
             if (ModelState.IsValid)
             {
-                    var bug = new Bug()
-                    {
-                        UserId = _userManager.GetUserId(User),
-                        CategoryId = model.CategoryId,
-                        Description = model.Description,
-                        RepoLink = model.RepoLink
-                    };
-                    _bugService.NewBug(bug);
+                var bug = new Bug()
+                {
+                    UserId = _userManager.GetUserId(User),
+                    CategoryId = model.CategoryId,
+                    Description = model.Description,
+                    RepoLink = model.RepoLink
+                };
+                _bugService.NewBug(bug);
+                await _hubContext.Clients.All.SendAsync("NewBugReceived", bug);
                 if (!User.IsInRole("CompanyManager"))
                 {
                     return RedirectToAction("Index", "Home");
@@ -96,7 +96,7 @@ namespace BugTrackerProj.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
-        
+
 
 
     }
