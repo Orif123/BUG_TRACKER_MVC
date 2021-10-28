@@ -8,7 +8,7 @@
 	else
 		root["signalR"] = factory();
 })(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
+return /******/ (function(modules) { 
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/

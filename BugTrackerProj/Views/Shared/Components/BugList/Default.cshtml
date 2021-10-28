@@ -24,7 +24,7 @@
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tablebody">
             @foreach (var bug in Model.Bugs)
             {
                 @using (Html.BeginForm("Solved", "AdminRole", new { id = bug.BugId }))

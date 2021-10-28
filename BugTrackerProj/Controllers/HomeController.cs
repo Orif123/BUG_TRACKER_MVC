@@ -60,7 +60,6 @@ namespace BugTrackerProj.Controllers
                     RepoLink = model.RepoLink
                 };
                 _bugService.NewBug(bug);
-                await _hubContext.Clients.All.SendAsync("NewBugReceived", bug);
                 if (!User.IsInRole("CompanyManager"))
                 {
                     return RedirectToAction("Index", "Home");
@@ -74,12 +73,13 @@ namespace BugTrackerProj.Controllers
             return View(_bugService.GetDetails(id));
         }
         [HttpPost]
-        public IActionResult AddComment(BugCommentDetailsViewModel model)
+        public async Task<IActionResult> AddComment(BugCommentDetailsViewModel model)
         {
             if (ModelState.IsValid)
             {
                 model.UserId = _userManager.GetUserId(User);
                 _bugService.AddComment(model);
+                await _hubContext.Clients.All.SendAsync("NewBugReceived", model.UserId, model.CommentText);
                 return RedirectToAction("BugDetails", new { id = model.BugId });
             }
             return RedirectToAction("BugDetails");

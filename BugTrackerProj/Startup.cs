@@ -67,7 +67,7 @@ namespace BugTrackerProj
 
             app.UseEndpoints(endpoints =>
             { 
-                endpoints.MapHub<ApplicationHub>("Application");
+                endpoints.MapHub<ApplicationHub>("/Application");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Entry}/{action=HomePage}/{id?}");

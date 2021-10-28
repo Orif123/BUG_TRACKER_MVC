@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "BugDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -26,13 +25,11 @@
         <tbody class="tablebody">
             @foreach (var bug in Model.Bug)
             {
-
-
                 <tr>
                     <td>
                         @bug.Category.CtaegoryName
                     </td>
-                    <td>
+                    <td id="userName">
                         @bug.User.UserName
                     </td>
                     <td>
@@ -42,31 +39,29 @@
                         @bug.Description
                     </td>
                 </tr>
-
-
             }
-
-
         </tbody>
     </table>
     <div>
         @foreach (var item in Model.Comments)
         {
-            <ul>
-                <li>@item.User.UserName</li>
-                <li>@item.Text</li>
+            <ul id="chat">
+                <li id="sender">@item.BugId</li>
+                <li id="text">@item.Text</li>
             </ul>
         }
     </div>
     <h1 class="details">Comments</h1>
     <form method="post">
-        <input asp-for="BugId" value="@(ViewContext.RouteData.Values["id"])" />
-        <label asp-for="CommentText"></label>
-        <textarea asp-for="CommentText"></textarea>
-        <input type="submit" asp-action="AddComment" />
+        <input  asp-for="BugId" value="@(ViewContext.RouteData.Values["id"])" />
+        <label  asp-for="CommentText"></label>
+        <textarea id="messageText" asp-for="CommentText"></textarea>
+        <input onclick="sendMessage()" type="submit" asp-action="AddComment" />
     </form>
-
-
+    <script>
+        const userName = @(ViewContext.RouteData.Values["id"]);
+    </script>
+   
 </body>
 
 
