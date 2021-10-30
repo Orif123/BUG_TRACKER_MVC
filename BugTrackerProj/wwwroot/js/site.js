@@ -1,8 +1,7 @@
 ﻿"use strict";
 
 class BugCommentDetailsViewModel {
-    constructor(username, text) {
-        this.username = username;
+    constructor(text) {
         this.text = text;
     }
 }
@@ -33,20 +32,19 @@ function sendMessage() {
 
     if (text.trim() === "") return;
 
-    let details = new BugCommentDetailsViewModel(username, text);
+    let details = new BugCommentDetailsViewModel (text);
     sendMessageToHub(details);
 }
-function addMessageToChat(details) {
-    let isCurrentUserMessage = details.username === userName;
+function addMessageToChat(user, massage) {
+    let isCurrentUserMessage = user === userName;
 
     let container = document.createElement('ul');
-    container.className = isCurrentUserMessage ? "container darker" : "container";
 
     let sender = document.createElement('li');
     sender.className = "sender";
-    sender.innerHTML = details.username;
+    sender.innerHTML = user;
     let text = document.createElement('li');
-    text.innerHTML = details.text;
+    text.innerHTML = massage;
 
     container.appendChild(sender);
     container.appendChild(text);

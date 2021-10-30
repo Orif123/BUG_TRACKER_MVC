@@ -33,7 +33,7 @@ namespace BugTrackerProj.Controllers
             _hubContext = hubContext;
         }
         [Authorize(Roles = "User, Admin, CompanyManager")]
-        public async Task<IActionResult> Index(MainPageViewModel model, string userid = "")
+        public IActionResult Index(MainPageViewModel model, string userid = "")
         {
             userid = _userManager.GetUserId(User);
             var user = _bugService.GetRealUsers().SingleOrDefault(i => i.Id == userid);
@@ -48,7 +48,7 @@ namespace BugTrackerProj.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Add(NewBugViewModel model)
+        public IActionResult Add(NewBugViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,9 @@ namespace BugTrackerProj.Controllers
             {
                 model.UserId = _userManager.GetUserId(User);
                 _bugService.AddComment(model);
-                await _hubContext.Clients.All.SendAsync("NewBugReceived", model.UserId, model.CommentText);
+                var user = User.Identity.Name;
+                var message = model.CommentText;
+                await _hubContext.Clients.All.SendAsync("NewBugReceived", user, message);
                 return RedirectToAction("BugDetails", new { id = model.BugId });
             }
             return RedirectToAction("BugDetails");

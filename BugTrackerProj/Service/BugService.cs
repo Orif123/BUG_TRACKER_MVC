@@ -30,7 +30,7 @@ namespace BugTrackerProj.Service
                 CommentId = Guid.NewGuid().ToString(),
                 Text = model.CommentText,
                 BugId = model.BugId,
-                UserId = model.UserId
+                UserId = model.UserId,
             };
 
             _context.Comments.Add(comment);
@@ -100,7 +100,7 @@ namespace BugTrackerProj.Service
         public BugCommentDetailsViewModel GetDetails(string id)
         {
             var model = new BugCommentDetailsViewModel();
-            model.Bug = _context.Bugs.Where(p => p.BugId == id).Include(c => c.Category).Include(c => c.User).Include(c => c.Project).ToList();
+            model.Bug = _context.Bugs.Where(p => p.BugId == id).OrderByDescending(d => d.BugDate).Include(c => c.Category).Include(c => c.User).Include(c => c.Project).ToList();
             model.Comments = _context.Comments.Where(c => c.BugId == id).Include(u => u.User);
             return model;
         }

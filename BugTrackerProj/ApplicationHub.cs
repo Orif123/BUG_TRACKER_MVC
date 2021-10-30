@@ -7,9 +7,9 @@ namespace BugTrackerProj
 {
     public class ApplicationHub: Hub
     {
-        public async Task NewBugReceived(BugCommentDetailsViewModel model)
+        public async Task NewBugReceived(string user, string message)
         {
-           await Clients.All.SendAsync("NewBugReceived", model.BugId, model.CommentText);
+           await Clients.All.SendAsync("NewBugReceived",user, message);
         }
     }
 }
