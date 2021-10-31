@@ -119,6 +119,9 @@ namespace BugTrackerProj.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("CommentId");
 
                     b.HasIndex("UserId");
@@ -130,7 +133,8 @@ namespace BugTrackerProj.Migrations
                         {
                             CommentId = "gsgdfartsdfsa",
                             BugId = "ra",
-                            Text = "ori"
+                            Text = "ori",
+                            When = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 

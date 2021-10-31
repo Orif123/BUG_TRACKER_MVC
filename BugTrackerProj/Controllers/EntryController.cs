@@ -15,8 +15,10 @@ namespace BugTrackerProj.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IBugService _bugService;
-        public EntryController(UserManager<ApplicationUser> userManager, IBugService bugService)
+        private readonly IUserService _userService;
+        public EntryController(UserManager<ApplicationUser> userManager, IBugService bugService, IUserService userService)
         {
+            _userService = userService;
             _bugService = bugService;
             _userManager = userManager;
         }
@@ -28,7 +30,7 @@ namespace BugTrackerProj.Controllers
                 return View(_bugService.CountAllBugs());
             }
             var userid = _userManager.GetUserId(User);
-            var user = _bugService.GetRealUsers().SingleOrDefault(u => u.Id == userid);
+            var user = _userService.GetRealUsers().SingleOrDefault(u => u.Id == userid);
             projectid = user.ProjectId;
             return View(_bugService.CountProjectBugs(projectid));
         }

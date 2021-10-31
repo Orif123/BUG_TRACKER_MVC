@@ -12,6 +12,7 @@ namespace BugTrackerProj.Models
     {
         public string CommentId { get; set; }
         public string Text { get; set; }
+        public DateTime When { get; set; }
         public virtual Bug Bug { get; set; }
         [ForeignKey("BugId")]
         public string BugId { get; set; }

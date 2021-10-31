@@ -1,5 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿
 
 a.navbar-brand {
   white-space: normal;
@@ -7,7 +6,6 @@ a.navbar-brand {
   word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
 }
@@ -24,8 +22,7 @@ a {
   border-color: #1861ac;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+
 html {
   font-size: 14px;
 }
@@ -33,6 +30,7 @@ html {
   html {
     font-size: 16px;
   }
+ 
 }
 
 .border-top {
@@ -81,4 +79,9 @@ body {
 
     .card:hover {
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+
+    h1{
+        text-align:center
     }

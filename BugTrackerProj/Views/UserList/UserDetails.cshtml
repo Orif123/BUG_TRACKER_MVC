@@ -3,7 +3,6 @@
     ViewData["Title"] = "UserDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h1 style="text-align:center">UserDetails</h1>
 <div>
     <div class="card" style="width:400px; left:35%">
@@ -19,9 +18,11 @@
             <a class="btn comment-button" asp-controller="UserList" asp-action="Index">Back</a>
         </div>
     </div>
-    <h1 class="details">Comments</h1>
 
     }
+    @if (Model.Bugs.Any())
+    {
+    <h1 class="text-center">User's Open Bugs</h1>
     <table border="1" class="table table-striped">
         <thead>
             <tr>
@@ -69,5 +70,7 @@
             }
         </tbody>
     </table>
+    }
+    
 </div>
 

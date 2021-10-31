@@ -5,7 +5,7 @@ class BugCommentDetailsViewModel {
         this.text = text;
     }
 }
-console.log("Hello From Site")
+console.log("Hello from Site");
 var connection = new signalR.HubConnectionBuilder().withUrl("/Application").build();
 
 connection.on("NewBugReceived", addMessageToChat);
@@ -38,17 +38,18 @@ function sendMessage() {
 function addMessageToChat(user, massage) {
     let isCurrentUserMessage = user === userName;
 
-    let container = document.createElement('ul');
-
-    let sender = document.createElement('li');
-    sender.className = "sender";
+    let container = document.createElement('div');
+    container.className += " media"
+    let sender = document.createElement('p');
+    sender.className += " media-body";
     sender.innerHTML = user;
-    let text = document.createElement('li');
+    let text = document.createElement('p');
+    text.className += " media-body"
     text.innerHTML = massage;
 
+    chat.appendChild(container);
     container.appendChild(sender);
     container.appendChild(text);
-    chat.appendChild(container);
 }
 
 

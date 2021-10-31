@@ -20,8 +20,10 @@ namespace BugTrackerProj.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService bugService, IWebHostEnvironment hostingEnvironment)
+        private readonly IProjectService _projectService;
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService bugService, IWebHostEnvironment hostingEnvironment, IProjectService projectService)
         {
+            _projectService = projectService;
             _hostingEnvironment = hostingEnvironment;
             _bugService = bugService;
             _signInManager = signInManager;
@@ -29,7 +31,7 @@ namespace BugTrackerProj.Controllers
         }
         public IActionResult Register()
         {
-            ViewBag.ProjectId = _bugService.GetProjects().ToList();
+            ViewBag.ProjectId = _projectService.GetProjects().ToList();
             return View();
         }
         [HttpPost]
@@ -79,19 +81,11 @@ namespace BugTrackerProj.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (_signInManager.IsSignedIn(User))
-                    {
-                        if (User.IsInRole("CompanyManager"))
-                        {
-                            return RedirectToAction("Index", "AdminRole");
-                        }
-                        return RedirectToAction("Index", "Home");
-                    }
-
-                    ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
-
+                    return RedirectToAction("HomePage", "Entry");
                 }
-                return View(user);
+
+                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+
             }
             return View(user);
         }

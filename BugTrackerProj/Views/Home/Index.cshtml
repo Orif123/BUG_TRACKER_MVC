@@ -4,15 +4,6 @@
 }
 @model BugTrackerProj.ViewModels.MainPageViewModel
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <form method="post">
-        <button type="submit" asp-action="Logout">LogOut</button>
-    </form>
-    
-
-
+    <h1 class="display-4">Bug List</h1>
    @await Component.InvokeAsync("BugList")
-
-
-
 </div>

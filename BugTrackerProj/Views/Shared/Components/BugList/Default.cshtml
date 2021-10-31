@@ -1,59 +1,63 @@
 ﻿@model BugTrackerProj.ViewModels.MainPageViewModel
-    <div>
+<div>
 
-        <form>
+    <form>
+        <div>
             <label asp-for="CategoryId" class="control-label"></label>
+        </div>
+        <div>
             @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "")
-            <input type="submit" asp-action="Index" />
-        </form>
-    </div>
-    <table border="1" class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    Project Name
-                </th>
-                <th>
-                    User
-                </th>
-                <th>
-                    Date
-                </th>
-                <th>
-                    Description
-                </th>
-            </tr>
-        </thead>
-        <tbody id="tablebody">
-            @foreach (var bug in Model.Bugs)
+        </div>
+        <input class="btn-info" type="submit" value="Search" asp-action="Index" />
+    </form>
+</div>
+<table border="1" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Project Name
+            </th>
+            <th>
+                User
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tablebody">
+        @foreach (var bug in Model.Bugs)
+        {
+            @using (Html.BeginForm("Solved", "AdminRole", new { id = bug.BugId }))
             {
-                @using (Html.BeginForm("Solved", "AdminRole", new { id = bug.BugId }))
-                {
-                    <tr>
-                        <td>
-                            @bug.Category.CtaegoryName
-                        </td>
-                        <td>
-                            @bug.User.UserName
-                        </td>
-                        <td>
-                            @bug.BugDate
-                        </td>
-                        <td>
-                            @bug.Description
-                        </td>
-                        <td>
-                            <input type="submit" value="Details" asp-controller="Home" asp-action="BugDetails" asp-route-id="@bug.BugId" />
-                            @if (User.IsInRole("Admin") || User.IsInRole("CompanyManager"))
-                            {
-                                <input type="submit" value="Solved" onclick="" />
-                            }
-                        </td>
-                    </tr>
-                }
+                <tr>
+                    <td>
+                        @bug.Category.CtaegoryName
+                    </td>
+                    <td>
+                        @bug.User.UserName
+                    </td>
+                    <td>
+                        @bug.BugDate
+                    </td>
+                    <td>
+                        @bug.Description
+                    </td>
+                    <td>
+                        <input type="submit" class="btn-primary" value="Details" asp-controller="Home" asp-action="BugDetails" asp-route-id="@bug.BugId" />
+                        @if (User.IsInRole("Admin") || User.IsInRole("CompanyManager"))
+                        {
+                            <input type="submit" value="Solved" class="btn-success" onclick="" />
+                        }
+                    </td>
+                </tr>
             }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 
 
 

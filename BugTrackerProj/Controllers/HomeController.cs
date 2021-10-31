@@ -19,14 +19,16 @@ namespace BugTrackerProj.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly IHttpContextAccessor _accessor;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IBugService _bugService;
+        private readonly IUserService _userService;
+        private readonly ICategoryService _categoryService;
         private readonly IHubContext<ApplicationHub> _hubContext;
-        public HomeController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService service, IHttpContextAccessor accessor, IHubContext<ApplicationHub> hubContext)
+        public HomeController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBugService service, IHubContext<ApplicationHub> hubContext, ICategoryService categoryService, IUserService userService)
         {
-            _accessor = accessor;
+            _userService = userService;
+            _categoryService = categoryService;
             _signInManager = signInManager;
             _userManager = userManager;
             _bugService = service;
@@ -36,15 +38,15 @@ namespace BugTrackerProj.Controllers
         public IActionResult Index(MainPageViewModel model, string userid = "")
         {
             userid = _userManager.GetUserId(User);
-            var user = _bugService.GetRealUsers().SingleOrDefault(i => i.Id == userid);
-            ViewBag.CategoryId = _bugService.GetCategories(user.ProjectId);
+            var user = _userService.GetRealUsers().SingleOrDefault(i => i.Id == userid);
+            ViewBag.CategoryId = _categoryService.GetCategories(user.ProjectId);
             return View(_bugService.GetAllUserBugs(model, userid));
         }
-
         public IActionResult NewBug()
         {
-            var user = _bugService.GetRealUsers().SingleOrDefault(u => u.Id == _userManager.GetUserId(User));
-            ViewBag.CategoryId = _bugService.GetCategories(user.ProjectId);
+            var user = _userService.GetRealUsers().SingleOrDefault(u => u.Id == _userManager.GetUserId(User));
+            ViewBag.CategoryId = _categoryService.GetCategories(user.ProjectId);
+            ViewBag.MCategoryId = _categoryService.ListItemCategories();
             return View();
         }
         [HttpPost]
@@ -86,8 +88,6 @@ namespace BugTrackerProj.Controllers
             }
             return RedirectToAction("BugDetails");
         }
-
-
         public IActionResult Privacy()
         {
             return View();
@@ -98,9 +98,6 @@ namespace BugTrackerProj.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
-
-
-
     }
 
 

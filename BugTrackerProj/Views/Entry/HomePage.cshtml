@@ -4,16 +4,20 @@
     ViewData["Title"] = "HomePage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="text-center">
 
-<h1>HomePage</h1>
+    <h1 class="display-3 ">Welcome @User.Identity.Name</h1>
+    <div>
+        <small class="display-4">Number of Bugs your team should handle with:</small>
+    </div>
+    <div style="margin:100px">
+        <h3 class="display-4 text-danger font-weight-bolder">@Model.BugCounter</h3>
+    </div>
 
-<h2>Number of Bugs your team should handle:</h2>
-
-<h3>@Model.BugCounter</h3>
-
-<form method="post">
-    <input type="submit" asp-action="Navigate"/>
-</form>
+    <form method="post">
+        <input type="submit" value="Go See Them Now" class="btn-light" asp-action="Navigate" />
+    </form>
+</div>
 
 
 

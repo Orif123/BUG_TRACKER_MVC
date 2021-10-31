@@ -4,13 +4,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1 class="titles">Create</h1>
 <form method="post">
-    <label asp-for="Username" class="control-label"></label>
-    @Html.DropDownListFor(m => m.Username, new List<SelectListItem>(ViewBag.Users), "Choose User")
-    <label asp-for="RoleName" class="control-label"></label>
-    @Html.DropDownListFor(m => m.RoleName, new List<SelectListItem>(ViewBag.Roles), "Choose Role")
-    <input type="submit" asp-action="Create" />
+    <div>
+        <label asp-for="Username" class="control-label"></label>
+        @Html.DropDownListFor(m => m.Username, new List<SelectListItem>(ViewBag.Users), "Choose User")
+    </div>
+    <div>
+        <label asp-for="RoleName" class="control-label"></label>
+        @Html.DropDownListFor(m => m.RoleName, new List<SelectListItem>(ViewBag.Roles), "Choose Role")
+    </div>
+    <div>
+        <input type="submit" asp-action="Create" />
+    </div>
 
 
 

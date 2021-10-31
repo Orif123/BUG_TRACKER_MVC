@@ -7,7 +7,7 @@
 
 <h1>GetCategories</h1>
 
-<input type="submit" asp-action="CreateCategory" />
+<a type="submit" asp-controller="AdminRole" asp-action="CreateProject">Create New Project</a> />
     @foreach (var project in Model)
     {
         @using (Html.BeginForm("DeleteProject", "AdminRole", new { id = project.ProjectId }))

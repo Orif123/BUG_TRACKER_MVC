@@ -9,34 +9,47 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>NewBug</title>
+    <title>Create New Issue</title>
 </head>
-<body>
+<body style="left:60%">
 
     <h4>Bug</h4>
     <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Add" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <textarea asp-for="Description" class="form-control"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CategoryId" class="control-label"></label>
-                    @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "")
-                </div>
-                <div class="form-group">
-                    <label asp-for="RepoLink" class="control-label"></label>
-                    <input asp-for="RepoLink" class="form-control" />
-                    <span asp-validation-for="RepoLink" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" asp-action="Add" class="btn btn-primary" />
-                </div>
-            </form>
+    <div>
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Add" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label" asp-for="Description"></label>
+                        <textarea class="form-control" asp-for="Description"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label asp-for="CategoryId" class="control-label"></label>
+                        </div>
+                        <div>
+                            @if (User.IsInRole("CompanyManager"))
+                            {
+                                @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.MCategoryId), "Select Category")
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "Select Category")
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RepoLink" class="control-label"></label>
+                        <input asp-for="RepoLink" class="form-control" />
+                        <span asp-validation-for="RepoLink" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" asp-action="Add" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
