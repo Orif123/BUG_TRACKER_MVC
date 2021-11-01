@@ -61,6 +61,8 @@ namespace BugTrackerProj.Controllers
                     Description = model.Description,
                     RepoLink = model.RepoLink
                 };
+                var category = _categoryService.GetAllCategories().SingleOrDefault(c => c.CategoryId == model.CategoryId);
+                bug.ProjectId = category.ProjectId;
                 _bugService.NewBug(bug);
                 if (!User.IsInRole("CompanyManager"))
                 {

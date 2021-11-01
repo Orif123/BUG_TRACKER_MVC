@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTrackerProj.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211031005155_datetime-to-comment")]
-    partial class datetimetocomment
+    [Migration("20211031223056_user")]
+    partial class user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -269,6 +269,10 @@ namespace BugTrackerProj.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -285,6 +289,8 @@ namespace BugTrackerProj.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -365,11 +371,17 @@ namespace BugTrackerProj.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<string>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -389,6 +401,30 @@ namespace BugTrackerProj.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("BugTrackerProj.Models.ApplicationRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.HasDiscriminator().HasValue("ApplicationRole");
+                });
+
+            modelBuilder.Entity("BugTrackerProj.Models.ApplicationUserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<string>");
+
+                    b.Property<string>("RoleidId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UseridId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("RoleidId");
+
+                    b.HasIndex("UseridId");
+
+                    b.HasDiscriminator().HasValue("ApplicationUserRole");
                 });
 
             modelBuilder.Entity("BugTrackerProj.Models.ApplicationUser", b =>
@@ -490,6 +526,17 @@ namespace BugTrackerProj.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BugTrackerProj.Models.ApplicationUserRole", b =>
+                {
+                    b.HasOne("BugTrackerProj.Models.ApplicationRole", "Roleid")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleidId");
+
+                    b.HasOne("BugTrackerProj.Models.ApplicationUser", "Userid")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UseridId");
                 });
 #pragma warning restore 612, 618
         }

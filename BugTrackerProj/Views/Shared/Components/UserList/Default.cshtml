@@ -1,22 +1,24 @@
 ﻿@model IEnumerable<BugTrackerProj.Models.ApplicationUser>
-
-<table border="1" class="table table-striped">
+<div class="text-center">
+<a value="Update Your Details" type="submit" class="text-center" asp-action="UpdateUser" asp-route-id="@ViewBag.Id">Update your details</a>
+</div>
+<table border="1" class="table table-responsive-sm">
     <thead>
         <tr>
             <th>
                 Image
             </th>
             <th>
-                Project Name
+                Email
             </th>
             <th>
-                User
+                Project
             </th>
             <th>
-                Date
+                First Name
             </th>
             <th>
-                Description
+                Last Name
             </th>
         </tr>
     </thead>
@@ -24,32 +26,37 @@
     {
         <form method="get">
 
-            <tbody class="tablebody">
+        <tbody class="tablebody">
 
-                <tr>
+            <tr>
+                <td>
+                    <img src="~/Assets/@user.PhotoPath" width="70" height="70" />
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @user.Project.ProjectName
+                </td>
+                <td>
+                    @user.FirstName
+                </td>
+                <td>
+                    @user.LastName
+                </td>
+                @if (User.IsInRole("CompanyManager") || User.IsInRole("Admin"))
+                {
                     <td>
-                        <img src="~/Assets/@user.PhotoPath" width="70" height="70" />
+                        <input type="submit" class="btn-warning" value="Update" asp-action="UpdateUser" asp-route-id="@user.Id" />
                     </td>
-                    <td>
-                        @user.Email
-                    </td>
-                    <td>
-                        @user.UserName
-                    </td>
-                    <td>
-                        @user.FirstName
-                    </td>
-                    <td>
-                        @user.LastName
-                    </td>
-                    <td>
-                        <input type="submit" value="Update" asp-action="UpdateUser" asp-route-id="@user.Id" />
-                    </td> <td>
-                        <input type="submit" value="Details"  asp-action="UserDetails" asp-route-id="@user.Id" />
-                    </td>
-                </tr>
+                }
+                <td>
+                    <input type="submit" value="Details" class="btn-info" asp-action="UserDetails" asp-route-id="@user.Id" />
+                </td>
 
-            </tbody>
+            </tr>
+
+        </tbody>
         </form>
     }
 </table>

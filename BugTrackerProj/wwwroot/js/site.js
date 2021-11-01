@@ -32,11 +32,11 @@ function sendMessage() {
 
     if (text.trim() === "") return;
 
-    let details = new BugCommentDetailsViewModel (text);
+    let details = new BugCommentDetailsViewModel(text);
     sendMessageToHub(details);
 }
 function addMessageToChat(user, massage) {
-    let isCurrentUserMessage = user === userName;
+   /* let isCurrentUserMessage = user === userName;*/
 
     let container = document.createElement('div');
     container.className += " media"
@@ -51,7 +51,6 @@ function addMessageToChat(user, massage) {
     container.appendChild(sender);
     container.appendChild(text);
 }
-
 
     
 

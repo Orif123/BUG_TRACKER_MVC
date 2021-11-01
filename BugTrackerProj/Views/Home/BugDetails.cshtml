@@ -5,55 +5,52 @@
 @model BugTrackerProj.ViewModels.BugCommentDetailsViewModel
 <h1 class="text-center">Bug Details</h1>
 <body>
-    
 
-        @foreach (var bug in Model.Bug)
-        {
 
-            <div class=" text-center card-body" >
-                <h5 class="card-title"><small class="text-muted">Date:</small> @bug.BugDate</h5>
-                <div class="card-text">
-                    <p><small class="text-muted">Category:</small> @bug.Category.CtaegoryName</p>
-                    <p><small class="text-muted">User:</small> @bug.User.UserName</p>
-                    <p><small class="text-muted">Link to Repository:</small><a href=" @bug.RepoLink">@bug.User.UserName Repository</a></p>
+    @foreach (var bug in Model.Bug)
+    {
+
+        <div class=" text-center card-body">
+            <h5 class="card-title"><small class="text-muted">Date:</small> @bug.BugDate</h5>
+            <div class="card-text">
+                <p><small class="text-muted">Category:</small> @bug.Category.CtaegoryName</p>
+                <p><small class="text-muted">User:</small> @bug.User.UserName</p>
+                <p><small class="text-muted">Link to Repository:</small><a href=" @bug.RepoLink">@bug.User.UserName Repository</a></p>
+            </div>
+
+
+        </div>
+    }
+    <div class="text-center">
+
+        <h4 class="details">Send Message</h4>
+        <form method="post">
+            <div>
+                <input type="hidden" asp-for="BugId" value="@(ViewContext.RouteData.Values["id"])" />
+            </div>
+            <div>
+                <label asp-for="CommentText"></label>
+            </div>
+            <div>
+                <textarea id="messageText" asp-for="CommentText"></textarea>
+                <div>
+                    <span class="text-danger" asp-validation-for="CommentText"></span>
                 </div>
-
-
+            </div>
+            <input type="submit" value="Send Message" class="btn btn-outline-success" asp-action="AddComment" />
+        </form>
+    </div>
+    <div class="text-center">
+        <h3>Chat About The Issue</h3>
+        <div id="chat"></div>
+        @foreach (var item in Model.Comments)
+        {
+            <div class="media">
+                <p class="media-body">@item.User.UserName</p>
+                <p class="media-body">@item.Text</p>
             </div>
         }
-        <div class="text-center">
-
-            <h4 class="details">Send Message</h4>
-            <form method="post">
-                <div>
-                    <input type="hidden" asp-for="BugId" value="@(ViewContext.RouteData.Values["id"])" />
-                </div>
-                <div>
-                    <label asp-for="CommentText"></label>
-                </div>
-                <div>
-                    <textarea id="messageText" asp-for="CommentText"></textarea>
-                    <div>
-                        <span class="text-danger" asp-validation-for="CommentText"></span>
-                    </div>
-                </div>
-                <input type="submit" value="Send Message" class="btn btn-outline-success" asp-action="AddComment" />
-            </form>
-        </div>
-        <div>
-            <div class="text-center">
-                <h3>Chat About The Issue</h3>
-                <div id="chat"></div>
-                @foreach (var item in Model.Comments)
-                {
-                    <div class="media">
-                        <p class="media-body">@item.User.UserName</p>
-                        <p class="media-body">@item.Text</p>
-                    </div>
-
-                }
-            </div>
-        </div>
+    </div>
 
 </body>
 

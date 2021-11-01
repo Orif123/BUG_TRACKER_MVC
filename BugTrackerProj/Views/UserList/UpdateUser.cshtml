@@ -23,15 +23,22 @@
     </div>
     <div>
         <label class="form-label " asp-for="Photo"></label>
-        <input class="form-control " asp-for="Photo"> />
-        <span asp-validation-for="Photo" class="text text-danger"></span>
     </div>
     <div>
-        <div class="form-group">
-            <label asp-for="ProjectId" class="control-label"></label>
-            @Html.DropDownListFor(m => m.ProjectId,
-        new List<SelectListItem>(ViewBag.ProjectId), "Select Project ")
-        </div>
+        <input class="form-control-file " asp-for="Photo"> 
+        <span asp-validation-for="Photo" class="text text-danger"></span>
+    </div>
+        @if (User.IsInRole("CompanyManager"))
+        {
+            <div class="form-group">
+                <label asp-for="ProjectId" class="control-label"></label>
+            </div>
+                @Html.DropDownListFor(m => m.ProjectId,
+            new List<SelectListItem>(ViewBag.ProjectId), "Select Project ")
+        }
+    <div>
+        <label asp-for="ProjectId"></label>
+        <input type="hidden" asp-for="ProjectId" value="@Model.ProjectId"/>
     </div>
 
     <p>

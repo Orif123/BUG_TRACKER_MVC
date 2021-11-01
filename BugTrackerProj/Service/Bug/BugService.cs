@@ -16,11 +16,10 @@ namespace BugTrackerProj.Service
 {
     public class BugService : IBugService
     {
-        private readonly IHttpContextAccessor _httpContext;
+       
         private readonly ApplicationDbContext _context;
-        public BugService(ApplicationDbContext context, IHttpContextAccessor contextAccessor, UserManager <ApplicationUser> userManager)
+        public BugService(ApplicationDbContext context)
         {
-            _httpContext = contextAccessor;
             _context = context;
         }
         public void BugSolved(string id)
@@ -87,7 +86,6 @@ namespace BugTrackerProj.Service
             bug.BugId = Guid.NewGuid().ToString();
             bug.BugDate = DateTime.Now;
             var user = _context.Users.SingleOrDefault(u => u.Id == bug.UserId);
-            bug.ProjectId = user.ProjectId;
             _context.Bugs.Add(bug);
             _context.SaveChanges();
         }

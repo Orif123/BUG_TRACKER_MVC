@@ -37,19 +37,23 @@
     </div>
     <div>
         <label class="form-label " asp-for="Photo"></label>
-        <input class="form-control " asp-for="Photo"> />
+        <input class="form-control-file " asp-for="Photo">
         <span asp-validation-for="Photo" class="text text-danger"></span>
     </div>
     <div>
-        <div class="form-group">
+        <div class="form-group" style="margin:15px;">
             <label asp-for="ProjectId" class="control-label"></label>
+        </div>
+        <div>
             @Html.DropDownListFor(m => m.ProjectId,
         new List<SelectListItem>(ViewBag.ProjectId), "Select Project ")
         </div>
     </div>
-    <p>
-        <input type="submit" class="btn btn-success" asp-action="NewAccount" />
-    </p>
+    <div style="margin:20px;">
+        <p>
+            <input type="submit" class="btn btn-success" value="Register" asp-action="NewAccount" />
+        </p>
+    </div>
     <div>
         <p>Have an account already? <a asp-action="Login">Log In</a></p>
     </div>

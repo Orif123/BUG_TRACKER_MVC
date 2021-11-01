@@ -34,7 +34,9 @@ namespace BugTrackerProj.Controllers
             {
                 return View(_userService.GetRealUsers());
             }
+            
             var userid = _userManager.GetUserId(User);
+            ViewBag.Id = userid;
             var user = _userService.GetRealUsers().SingleOrDefault(u => u.Id == userid);
             projectid = user.ProjectId;
             return View(_userService.GetUserByProject(projectid));

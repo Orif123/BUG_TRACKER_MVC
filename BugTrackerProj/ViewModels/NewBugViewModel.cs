@@ -10,19 +10,22 @@ namespace BugTrackerProj.ViewModels
     public class NewBugViewModel
     {
         [Required]
-        [DisplayName("Category")]
+        [DisplayName("Category: ")]
         public string CategoryId { get; set; }
         [Required]
+        [DisplayName("Description: ")]
         public string Description { get; set; }
         [Required]
         [Bindable(true)]
+        [DisplayName("Repository Link: ")]
         public string RepoLink { get; set; }
     }
     public class NewCategoryViewModel
     {
         [Required]
-        [DisplayName("Category Name")]
+        [DisplayName("Category Name: ")]
         public string CategoryName { get; set; }
+        [DisplayName("Project: ")]
         public string ProjectId { get; set; }
     }
 }
