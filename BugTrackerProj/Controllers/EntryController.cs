@@ -22,7 +22,6 @@ namespace BugTrackerProj.Controllers
             _bugService = bugService;
             _userManager = userManager;
         }
-        [Authorize(Roles ="User, Admin, CompanyManager")]
         public IActionResult HomePage(string projectid)
         {
             if (User.IsInRole("CompanyManager"))

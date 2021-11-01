@@ -57,12 +57,16 @@ namespace BugTrackerProj.Controllers
                     PhotoPath = uniqueFileName ?? "deafaultphoto.jfif"
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, "User");
+                if (_userManager.Users.Count() > 1)
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                }
+                await _userManager.AddToRoleAsync(user, "CompanyManager");
                 if (!result.Succeeded)
                 {
-                    return View(model);
+                    return RedirectToAction("HomePage", "Entry");
                 }
-                return RedirectToAction("Index", "Home");
+                return View(model);
             }
 
             return View();

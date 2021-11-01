@@ -9,7 +9,7 @@ namespace BugTrackerProj
     {
         public async Task NewBugReceived(string user, string message)
         {
-           await Clients.All.SendAsync("NewBugReceived",user, message);
+           await Clients.All.SendAsync("NewBugReceived", user, message);
         }
     }
 }

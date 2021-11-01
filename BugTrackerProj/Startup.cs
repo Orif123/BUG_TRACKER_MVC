@@ -35,7 +35,6 @@ namespace BugTrackerProj
                 options.Password.RequireDigit = true;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IBugService, BugService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IUserService, UserService>();

@@ -34,7 +34,10 @@ namespace BugTrackerProj.Service
             var categories = _context.Categories.Where(c => c.ProjectId == project.ProjectId);
             var users = _context.Users.Where(c => c.ProjectId == project.ProjectId);
             _context.Categories.RemoveRange(categories);
-            _context.Users.RemoveRange(users);
+            foreach (var user in users)
+            {
+                user.ProjectId = null;
+            }
             _context.Remove(project);
             _context.SaveChanges();
         }
