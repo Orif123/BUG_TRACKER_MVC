@@ -69,6 +69,7 @@ namespace BugTrackerProj.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+        [Authorize(Roles = "CompanyManager")]
         public IActionResult CreateCategory()
         {
             ViewBag.ProjectId = _projectService.GetProjects().ToList();
@@ -84,6 +85,7 @@ namespace BugTrackerProj.Controllers
             }
             return View();
         }
+        [Authorize(Roles = "CompanyManager")]
         public IActionResult CreateProject()
         {
             return View();
@@ -98,10 +100,12 @@ namespace BugTrackerProj.Controllers
             }
             return View();
         }
+        [Authorize(Roles ="CompanyManager")]
         public IActionResult GetCategories()
         {
             return View(_categoryService.GetAllCategories());
         }
+        [Authorize(Roles ="CompanyManager")]
         public IActionResult GetProjects()
         {
             return View(_projectService.GetRealProjects());

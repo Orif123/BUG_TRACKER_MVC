@@ -28,18 +28,17 @@ namespace BugTrackerProj.Controllers
             _userService = userService;
             _projectService = projectService;
         }
-        public IActionResult Index(string projectid)
+        public IActionResult Index(string projectid, string searchtext = "")
         {
-            if (User.IsInRole("CompanyManager"))
-            {
-                return View(_userService.GetRealUsers());
-            }
-            
             var userid = _userManager.GetUserId(User);
             ViewBag.Id = userid;
+            if (User.IsInRole("CompanyManager"))
+            {
+                return View(_userService.GetRealUsers(searchtext));
+            }
             var user = _userService.GetRealUsers().SingleOrDefault(u => u.Id == userid);
             projectid = user.ProjectId;
-            return View(_userService.GetUserByProject(projectid));
+            return View(_userService.GetUserByProject(projectid, searchtext));
         }
         public IActionResult UpdateUser(string id)
         {

@@ -1,6 +1,14 @@
 ﻿@model IEnumerable<BugTrackerProj.Models.ApplicationUser>
 <div class="text-center">
-<a value="Update Your Details" type="submit" class="text-center" asp-action="UpdateUser" asp-route-id="@ViewBag.Id">Update your details</a>
+    <div class="form-group">
+        <form method="get" asp-controller="UserList" asp-action="Index">
+            <label class="col-form-label-lg">Search User</label>
+            <input name="searchtext" class="form-control-lg text-center" />
+            <input type="submit" value="Search" class="btn-info" />
+        </form>
+    </div>
+
+
 </div>
 <table border="1" class="table table-responsive-sm">
     <thead>

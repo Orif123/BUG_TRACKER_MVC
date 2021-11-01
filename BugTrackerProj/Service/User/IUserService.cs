@@ -12,8 +12,8 @@ namespace BugTrackerProj.Service
     {
         List<SelectListItem> GetUserRoles();
         List<SelectListItem> GetUserNames();
-        List<ApplicationUser> GetUserByProject(string projectid);
-        List<ApplicationUser> GetRealUsers();
+        List<ApplicationUser> GetUserByProject(string projectid, string searchtext="");
+        List<ApplicationUser> GetRealUsers(string searchtext="");
         UpdateUserViewModel FindUserById(string id);
         ApplicationUser GetUserById(string id);
         List<string> GetUsers();

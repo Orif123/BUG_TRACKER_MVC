@@ -5,5 +5,10 @@
 }
 
 <h1>Contact List</h1>
+
+<div class="text-center">
+    <a value="Update Your Details" type="submit"  asp-action="UpdateUser" asp-route-id="@ViewBag.Id">Update your details</a>
+</div>
+
 @await Component.InvokeAsync("UserList")
 

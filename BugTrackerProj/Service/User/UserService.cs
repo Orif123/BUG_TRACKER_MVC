@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BugTrackerProj.Service
 {
-    public class UserService :IUserService
+    public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
         public UserService(ApplicationDbContext context)
@@ -34,10 +34,15 @@ namespace BugTrackerProj.Service
             var user = _context.Users.SingleOrDefault(u => u.Id == id);
             return user;
         }
-        public List<ApplicationUser> GetUserByProject(string projectid)
+        public List<ApplicationUser> GetUserByProject(string projectid, string searchtxt = "")
         {
-            var list = _context.Users.Where(u => u.ProjectId == projectid).Include(u => u.Project).ToList();
-            return list;
+            if (searchtxt == null || searchtxt == "")
+            {
+                var list = _context.Users.Where(u => u.ProjectId == projectid).Include(u => u.Project).ToList();
+                return list;
+            }
+            var searchedlist = _context.Users.Where(u => u.ProjectId == projectid).Where(u => u.UserName.Contains(searchtxt) || u.FirstName.Contains(searchtxt) || u.LastName.Contains(searchtxt)).Include(u => u.Project).ToList();
+            return searchedlist;
         }
         public List<SelectListItem> GetUserNames()
         {
@@ -59,10 +64,16 @@ namespace BugTrackerProj.Service
             }
             return selectedlist;
         }
-        public List<ApplicationUser> GetRealUsers()
+        public List<ApplicationUser> GetRealUsers(string searchtext = "")
         {
-            var list = _context.Users.ToList();
-            return list;
+            if (searchtext == null || searchtext == "")
+            {
+                var list = _context.Users.Include(p => p.Project).ToList();
+                return list;
+            }
+
+            var searchedlist = _context.Users.Where(u => u.UserName.Contains(searchtext) || u.FirstName.Contains(searchtext) || u.LastName.Contains(searchtext)).Include(p => p.Project).ToList();
+            return searchedlist;
         }
         public List<string> GetUsers()
         {
