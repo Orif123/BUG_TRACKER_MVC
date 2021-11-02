@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BugTrackerProj.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : Controller 
     {
         private readonly IBugService _bugService;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -53,7 +53,7 @@ namespace BugTrackerProj.Controllers
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    ProjectId = model.ProjectId,
+                    ProjectId = model.ProjectId ?? "NoProject",
                     PhotoPath = uniqueFileName ?? "deafaultphoto.jfif"
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);

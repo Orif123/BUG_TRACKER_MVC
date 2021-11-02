@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BugTrackerProj.Service
 {
-    public class ProjectService: IProjectService
+    public class ProjectService : IProjectService
     {
         private readonly ApplicationDbContext _context;
         private readonly IBugService _bugService;
@@ -36,7 +36,7 @@ namespace BugTrackerProj.Service
             _context.Categories.RemoveRange(categories);
             foreach (var user in users)
             {
-                user.ProjectId = null;
+                user.ProjectId = "NoProject";
             }
             _context.Remove(project);
             _context.SaveChanges();
@@ -47,13 +47,17 @@ namespace BugTrackerProj.Service
             var selectlist = new List<SelectListItem>();
             foreach (var item in projlist)
             {
-                selectlist.Add(new SelectListItem { Text = item.ProjectName, Value = item.ProjectId });
+                if(item.ProjectId !="NoProject")
+                {
+                    selectlist.Add(new SelectListItem { Text = item.ProjectName, Value = item.ProjectId });
+                }
             }
             return selectlist;
         }
         public List<Project> GetRealProjects()
         {
-            var list = _context.Projects.ToList();
+            var project = _context.Projects.Where(p => p.ProjectId == "NoProject");
+            var list = _context.Projects.Except(project).ToList();
             return list;
         }
     }

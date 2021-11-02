@@ -31,12 +31,12 @@ namespace BugTrackerProj.Controllers
         public IActionResult Index(string projectid, string searchtext = "")
         {
             var userid = _userManager.GetUserId(User);
+            var user = _userService.GetRealUsers().SingleOrDefault(u => u.Id == userid);
             ViewBag.Id = userid;
             if (User.IsInRole("CompanyManager"))
             {
                 return View(_userService.GetRealUsers(searchtext));
             }
-            var user = _userService.GetRealUsers().SingleOrDefault(u => u.Id == userid);
             projectid = user.ProjectId;
             return View(_userService.GetUserByProject(projectid, searchtext));
         }
@@ -54,14 +54,14 @@ namespace BugTrackerProj.Controllers
                 var uploadsfolder = Path.Combine(_hostEnvironment.WebRootPath, "Assets");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
                 var filePath = Path.Combine(uploadsfolder, uniqueFileName);
-                model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                await model.Photo.CopyToAsync(new FileStream(filePath, FileMode.Create));
             }
             var user = _userService.GetUserById(id);
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.PhotoPath = uniqueFileName ?? "deafaultphoto.jfif";
-            user.ProjectId = model.ProjectId;
+            user.ProjectId = model.ProjectId?? "NoProject";
 
 
             var result = await _userManager.UpdateAsync(user);
