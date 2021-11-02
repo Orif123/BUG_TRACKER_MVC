@@ -61,12 +61,15 @@ namespace BugTrackerProj.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, "User");
                 }
-                await _userManager.AddToRoleAsync(user, "CompanyManager");
+                else
+                {
+                    await _userManager.AddToRoleAsync(user, "CompanyManager");
+                }
                 if (!result.Succeeded)
                 {
                     return RedirectToAction("HomePage", "Entry");
                 }
-                return View(model);
+                return RedirectToAction("Register");
             }
 
             return View();

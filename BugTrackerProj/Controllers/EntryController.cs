@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace BugTrackerProj.Controllers
 {
+    [Authorize]
     public class EntryController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
