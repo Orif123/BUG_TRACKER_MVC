@@ -62,9 +62,9 @@ namespace BugTrackerProj.Controllers
         [HttpPost]
         public IActionResult Solved(string id)
         {
-            if (User.IsInRole("Admin") || User.IsInRole("CompanyManager"))
+            _bugService.BugSolved(id);
+            if (User.IsInRole("CompanyManager"))
             {
-                _bugService.BugSolved(id);
                 return RedirectToAction("Index", "AdminRole");
             }
             return RedirectToAction("Index", "Home");
@@ -100,12 +100,12 @@ namespace BugTrackerProj.Controllers
             }
             return View();
         }
-        [Authorize(Roles ="CompanyManager")]
+        [Authorize(Roles = "CompanyManager")]
         public IActionResult GetCategories()
         {
             return View(_categoryService.GetAllCategories());
         }
-        [Authorize(Roles ="CompanyManager")]
+        [Authorize(Roles = "CompanyManager")]
         public IActionResult GetProjects()
         {
             return View(_projectService.GetRealProjects());
@@ -122,7 +122,7 @@ namespace BugTrackerProj.Controllers
             _categoryService.DeleteCategory(id);
             return RedirectToAction("GetCategories");
         }
-        
+
 
 
 

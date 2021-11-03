@@ -57,13 +57,10 @@ namespace BugTrackerProj.Controllers
                 await model.Photo.CopyToAsync(new FileStream(filePath, FileMode.Create));
             }
             var user = _userService.GetUserById(id);
-
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.PhotoPath = uniqueFileName ?? "deafaultphoto.jfif";
-            user.ProjectId = model.ProjectId?? "NoProject";
-
-
+            user.ProjectId = model.ProjectId ?? "NoProject";
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {

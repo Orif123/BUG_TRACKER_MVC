@@ -38,10 +38,20 @@ namespace BugTrackerProj.Service
         {
             if (searchtxt == null || searchtxt == "")
             {
-                var list = _context.Users.Where(u => u.ProjectId == projectid).Include(u => u.Project).ToList();
+                var list = _context.Users.Where(u => u.ProjectId == projectid || u.ProjectId == "NoProject").Include(u => u.Project).ToList();
                 return list;
             }
-            var searchedlist = _context.Users.Where(u => u.ProjectId == projectid).Where(u => u.UserName.Contains(searchtxt) || u.FirstName.Contains(searchtxt) || u.LastName.Contains(searchtxt)).Include(u => u.Project).ToList();
+            var searchedlist = _context.Users.Where(u => u.ProjectId == projectid||u.ProjectId=="NoProject").Where(u => u.UserName.Contains(searchtxt) || u.FirstName.Contains(searchtxt) || u.LastName.Contains(searchtxt)).Include(u => u.Project).ToList();
+            return searchedlist;
+        }
+        public List<ApplicationUser> GetRealUsers(string searchtext = "")
+        {
+            if (searchtext == null || searchtext == "")
+            {
+                var list = _context.Users.Include(p => p.Project).ToList();
+                return list;
+            }
+            var searchedlist = _context.Users.Where(u => u.UserName.Contains(searchtext) || u.FirstName.Contains(searchtext) || u.LastName.Contains(searchtext)).Include(p => p.Project).ToList();
             return searchedlist;
         }
         public List<SelectListItem> GetUserNames()
@@ -63,22 +73,6 @@ namespace BugTrackerProj.Service
                 selectedlist.Add(new SelectListItem { Value = item.Name, Text = item.Name });
             }
             return selectedlist;
-        }
-        public List<ApplicationUser> GetRealUsers(string searchtext = "")
-        {
-            if (searchtext == null || searchtext == "")
-            {
-                var list = _context.Users.Include(p => p.Project).ToList();
-                return list;
-            }
-
-            var searchedlist = _context.Users.Where(u => u.UserName.Contains(searchtext) || u.FirstName.Contains(searchtext) || u.LastName.Contains(searchtext)).Include(p => p.Project).ToList();
-            return searchedlist;
-        }
-        public List<string> GetUsers()
-        {
-            var list = _context.Users.Select(list => list.Id).ToList();
-            return list;
         }
     }
 }

@@ -16,6 +16,5 @@ namespace BugTrackerProj.Service
         List<ApplicationUser> GetRealUsers(string searchtext="");
         UpdateUserViewModel FindUserById(string id);
         ApplicationUser GetUserById(string id);
-        List<string> GetUsers();
     }
 }
