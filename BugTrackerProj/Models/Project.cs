@@ -15,6 +15,7 @@ namespace BugTrackerProject.Models
     {
         public string ProjectId { get; set; }
         [DisplayName("Project")]
+        [Required]
         public string ProjectName { get; set; }
         [ForeignKey("Categories")]
         public ICollection<Category> Categories { get; set; }

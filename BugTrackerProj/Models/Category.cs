@@ -12,9 +12,11 @@ namespace BugTrackerProject.Models
     {
         public string CategoryId { get; set; }
         [DisplayName("Category")]
+        [Required]
         public string CtaegoryName { get; set; }
         [MaxLength(450)]
         [DisplayName("Project")]
+        [Required]
         public string ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public virtual Project Project { get; set; }
