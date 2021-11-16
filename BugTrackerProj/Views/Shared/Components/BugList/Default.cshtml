@@ -31,6 +31,7 @@
     <tbody id="tablebody">
         @foreach (var bug in Model.Bugs)
         {
+
             @using (Html.BeginForm("Solved", "AdminRole", new { id = bug.BugId }))
             {
                 <tr>
@@ -47,8 +48,9 @@
                         @bug.Description
                     </td>
                     <td>
+
                         <input type="submit" class="btn-primary" value="Details" asp-controller="Home" asp-action="BugDetails" asp-route-id="@bug.BugId" />
-                        @if (User.IsInRole("Admin") || User.IsInRole("CompanyManager"))
+                        @if (User.IsInRole("CompanyManager"))
                         {
                             <input type="submit" value="Solved" class="btn-success" onclick="alert('Are you Sure You Finished With this Bug?')" />
                         }

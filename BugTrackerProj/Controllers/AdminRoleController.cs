@@ -54,8 +54,10 @@ namespace BugTrackerProj.Controllers
             if (IsRoleExists)
             {
                 var user = await _userManager.FindByNameAsync(model.Username);
+                var roles = (List<string>)await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, roles);
                 await _userManager.AddToRoleAsync(user, model.RoleName);
-                return RedirectToAction("Index", "AdminRole");
+                return RedirectToAction("Index", "UserList");
             }
             return View();
         }
@@ -122,9 +124,5 @@ namespace BugTrackerProj.Controllers
             _categoryService.DeleteCategory(id);
             return RedirectToAction("GetCategories");
         }
-
-
-
-
     }
 }

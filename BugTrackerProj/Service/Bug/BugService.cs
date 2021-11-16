@@ -62,7 +62,6 @@ namespace BugTrackerProj.Service
         {
             if (model.CategoryId == "" || model.CategoryId == null)
             {
-
                 model.Bugs = GetAllBugs();
                 return model;
             }
@@ -119,9 +118,6 @@ namespace BugTrackerProj.Service
             model.BugCounter = model.Bugs.Count();
             return model;
         }
-        
-        
-        
     }
 }
 
