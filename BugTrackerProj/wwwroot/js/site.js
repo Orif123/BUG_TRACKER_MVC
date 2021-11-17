@@ -7,8 +7,7 @@ class BugCommentDetailsViewModel {
 }
 console.log("Hello from Site");
 var connection = new signalR.HubConnectionBuilder().withUrl("/Application").build();
-
-connection.on("SendMessageToGroup", addMessageToChat);
+connection.on("NewBugReceived", addMessageToChat);
 connection.start()
     .catch(error => {
         console.error(error.message);
@@ -37,7 +36,6 @@ function sendMessage() {
     sendMessageToHub(details);
 }
 function addMessageToChat(user, massage) {
-    /* let isCurrentUserMessage = user === userName;*/
     
     let container = document.createElement('div');
     container.className += " media"
