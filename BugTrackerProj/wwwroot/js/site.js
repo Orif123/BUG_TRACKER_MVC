@@ -50,6 +50,9 @@ function addMessageToChat(user, massage) {
     container.appendChild(sender);
     container.appendChild(text);
 }
+function goToRoom(bugid) {
+    eventHub.Server.JoinGroup(bugid);
+}
 
     
 
