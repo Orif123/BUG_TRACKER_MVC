@@ -64,6 +64,7 @@ namespace BugTrackerProj.Controllers
                 var category = _categoryService.GetAllCategories().SingleOrDefault(c => c.CategoryId == model.CategoryId);
                 bug.ProjectId = category.ProjectId;
                 _bugService.NewBug(bug);
+                
                 if (!User.IsInRole("CompanyManager"))
                 {
                     return RedirectToAction("Index", "Home");
