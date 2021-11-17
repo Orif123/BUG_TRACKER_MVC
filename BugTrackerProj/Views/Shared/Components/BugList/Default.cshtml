@@ -49,7 +49,7 @@
                     </td>
                     <td>
 
-                        <input type="submit" class="btn-primary" value="Details" asp-controller="Home" asp-action="BugDetails" asp-route-id="@bug.BugId" />
+                        <input type="submit" class="btn-primary" value="Details" onclick="goToRoom(@bug.BugId)" asp-controller="Home"  asp-action="BugDetails" asp-route-id="@bug.BugId"  />
                         @if (User.IsInRole("CompanyManager"))
                         {
                             <input type="submit" value="Solved" class="btn-success" onclick="alert('Are you Sure You Finished With this Bug?')" />
@@ -60,6 +60,7 @@
         }
     </tbody>
 </table>
+           
 
 
 
