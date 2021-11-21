@@ -26,7 +26,10 @@ function clearInputField() {
     messagesQueue.push(textInput.value);
     textInput.value = "";
 }
-
+function JoinGroup() {
+    const bug = document.getElementById('bugNum').value
+    eventHub.server.join(bug);
+}
 function sendMessage() {
     let text = textInput.value;
 
@@ -50,9 +53,7 @@ function addMessageToChat(user, massage) {
     container.appendChild(sender);
     container.appendChild(text);
 }
-function goToRoom(bugid) {
-    eventHub.Server.JoinGroup(bugid);
-}
+
 
     
 

@@ -86,6 +86,7 @@ namespace BugTrackerProj.Controllers
                 _bugService.AddComment(model);
                 var user = User.Identity.Name;
                 var message = model.CommentText;
+
                 await _hubContext.Clients.All.SendAsync("NewBugReceived", user, message);
                 return RedirectToAction("BugDetails", new { id = model.BugId });
             }

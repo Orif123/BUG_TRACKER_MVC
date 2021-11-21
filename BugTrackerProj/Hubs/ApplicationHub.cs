@@ -11,17 +11,5 @@ namespace BugTrackerProj
         {
            await Clients.All.SendAsync("NewBugReceived", user, message);
         }
-        public async Task Join(string bugid)
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, bugid);
-        }
-        public async Task SendMessageToGroup(string groupName, string user, string message)
-        {
-            await Clients.Group(groupName).SendAsync("SendMessageToGroup", user , message);
-        }
-        public Task Disconnect(string bugid)
-        {
-            return Groups.RemoveFromGroupAsync(Context.ConnectionId, bugid);
-        }
     }
 }
