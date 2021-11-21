@@ -36,6 +36,7 @@ namespace BugTrackerProj.Controllers
         public IActionResult Index(MainPageViewModel model)
         {
             ViewBag.CategoryId = _categoryService.ListItemCategories();
+            
             return View(_bugService.GetAllBugsManager(model));
         }
         [Authorize(Roles = "CompanyManager")]
@@ -83,7 +84,7 @@ namespace BugTrackerProj.Controllers
             if (ModelState.IsValid)
             {
                 _categoryService.NewCategory(model);
-                return RedirectToAction("Index", "AdminRole");
+                return RedirectToAction("GetCategories", "AdminRole");
             }
             return View();
         }
@@ -98,7 +99,7 @@ namespace BugTrackerProj.Controllers
             if (ModelState.IsValid)
             {
                 _projectService.NewProject(project);
-                return RedirectToAction("Index", "AdminRole");
+                return RedirectToAction("GetProjects", "AdminRole");
             }
             return View();
         }

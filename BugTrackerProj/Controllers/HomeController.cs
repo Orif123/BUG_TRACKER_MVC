@@ -38,13 +38,13 @@ namespace BugTrackerProj.Controllers
         public IActionResult Index(MainPageViewModel model, string userid = "")
         {
             userid = _userManager.GetUserId(User);
-            var user = _userService.GetRealUsers().SingleOrDefault(i => i.Id == userid);
+            var user = _userManager.Users.SingleOrDefault(i => i.Id == userid);
             ViewBag.CategoryId = _categoryService.GetCategories(user.ProjectId);
             return View(_bugService.GetAllUserBugs(model, userid));
         }
         public IActionResult NewBug()
         {
-            var user = _userService.GetRealUsers().SingleOrDefault(u => u.Id == _userManager.GetUserId(User));
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == _userManager.GetUserId(User));
             ViewBag.CategoryId = _categoryService.GetCategories(user.ProjectId);
             ViewBag.MCategoryId = _categoryService.ListItemCategories();
             return View();

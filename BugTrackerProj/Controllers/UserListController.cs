@@ -31,7 +31,8 @@ namespace BugTrackerProj.Controllers
         public IActionResult Index(string projectid, string searchtext = "")
         {
             var userid = _userManager.GetUserId(User);
-            var user = _userService.GetRealUsers().SingleOrDefault(u => u.Id == userid);
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == userid);
+            user.Role =
             ViewBag.Id = userid;
             if (User.IsInRole("CompanyManager"))
             {

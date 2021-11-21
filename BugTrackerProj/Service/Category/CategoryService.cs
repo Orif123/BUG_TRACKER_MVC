@@ -26,7 +26,7 @@ namespace BugTrackerProj.Service
         }
         public List<SelectListItem> GetCategories(string id)
         {
-            var categolist = _context.Categories.ToList();
+            var categolist =GetAllCategories();
             var selectlist = new List<SelectListItem>();
             foreach (var item in categolist)
             {
@@ -39,7 +39,7 @@ namespace BugTrackerProj.Service
         }
         public List<SelectListItem> ListItemCategories()
         {
-            var categolist = _context.Categories.ToList();
+            var categolist = GetAllCategories();
             var selectlist = new List<SelectListItem>();
             foreach (var item in categolist)
             {

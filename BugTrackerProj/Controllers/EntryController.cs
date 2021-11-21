@@ -30,7 +30,7 @@ namespace BugTrackerProj.Controllers
                 return View(_bugService.CountAllBugs());
             }
             var userid = _userManager.GetUserId(User);
-            var user = _userService.GetRealUsers().SingleOrDefault(u => u.Id == userid);
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == userid);
             projectid = user.ProjectId;
             return View(_bugService.CountProjectBugs(projectid));
         }

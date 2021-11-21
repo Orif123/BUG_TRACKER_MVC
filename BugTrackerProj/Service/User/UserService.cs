@@ -1,6 +1,7 @@
 ﻿using BugTrackerProj.Data;
 using BugTrackerProj.Models;
 using BugTrackerProj.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +14,11 @@ namespace BugTrackerProj.Service
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
-        public UserService(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public UserService(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public UpdateUserViewModel FindUserById(string id)
         {
@@ -36,23 +39,25 @@ namespace BugTrackerProj.Service
         }
         public List<ApplicationUser> GetUserByProject(string projectid, string searchtxt = "")
         {
+            var list = new List<ApplicationUser>();
             if (searchtxt == null || searchtxt == "")
             {
-                var list = _context.Users.Where(u => u.ProjectId == projectid || u.ProjectId == "NoProject").Include(u => u.Project).ToList();
+                list = _userManager.Users.Where(u => u.ProjectId == projectid || u.ProjectId == "NoProject").Include(u => u.Project).ToList();
                 return list;
             }
-            var searchedlist = _context.Users.Where(u => u.ProjectId == projectid||u.ProjectId=="NoProject").Where(u => u.UserName.Contains(searchtxt) || u.FirstName.Contains(searchtxt) || u.LastName.Contains(searchtxt)).Include(u => u.Project).ToList();
-            return searchedlist;
+            list = _userManager.Users.Where(u => u.ProjectId == projectid || u.ProjectId == "NoProject").Where(u => u.UserName.Contains(searchtxt) || u.FirstName.Contains(searchtxt) || u.LastName.Contains(searchtxt)).Include(u => u.Project).ToList();
+            return list;
         }
         public List<ApplicationUser> GetRealUsers(string searchtext = "")
         {
+            var list = new List<ApplicationUser>();
             if (searchtext == null || searchtext == "")
             {
-                var list = _context.Users.Include(p => p.Project).ToList();
+                list = _context.Users.Include(p => p.Project).ToList();
                 return list;
             }
-            var searchedlist = _context.Users.Where(u => u.UserName.Contains(searchtext) || u.FirstName.Contains(searchtext) || u.LastName.Contains(searchtext)).Include(p => p.Project).ToList();
-            return searchedlist;
+            list = _context.Users.Where(u => u.UserName.Contains(searchtext) || u.FirstName.Contains(searchtext) || u.LastName.Contains(searchtext)).Include(p => p.Project).ToList();
+            return list;
         }
         public List<SelectListItem> GetUserNames()
         {

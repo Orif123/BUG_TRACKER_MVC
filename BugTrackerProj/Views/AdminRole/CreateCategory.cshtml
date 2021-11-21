@@ -15,7 +15,7 @@
         <label asp-for="ProjectId" class="control-label"></label>
     </div>
     <div>
-        @Html.DropDownListFor(m => m.ProjectId, new List<SelectListItem>(ViewBag.ProjectId), "Choose Project")
+        @Html.DropDownListFor(m => m.ProjectId, new List<SelectListItem>(ViewBag.ProjectId),"Choose Project")
     </div>
         <input type="submit" asp-action="CreateCategory" />
 

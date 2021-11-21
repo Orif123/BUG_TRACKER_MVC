@@ -25,6 +25,7 @@ namespace BugTrackerProj.ViewModels
         [Required]
         [DisplayName("Category Name: ")]
         public string CategoryName { get; set; }
+        [Required]
         [DisplayName("Project: ")]
         public string ProjectId { get; set; }
     }

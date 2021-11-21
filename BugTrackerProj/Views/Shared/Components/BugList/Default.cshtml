@@ -6,7 +6,7 @@
             <label asp-for="CategoryId" class="control-label"></label>
         </div>
         <div>
-            @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "")
+            @Html.DropDownListFor(m => m.CategoryId, new List<SelectListItem>(ViewBag.CategoryId), "Choose Category")
         </div>
         <input class="btn-info" type="submit" value="Search" asp-action="Index" />
     </form>

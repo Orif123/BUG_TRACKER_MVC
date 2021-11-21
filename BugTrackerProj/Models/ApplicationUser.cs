@@ -21,5 +21,6 @@ namespace BugTrackerProj.Models
         public virtual Project Project { get; set; }
         public string ProjectId { get; set; }
         public string PhotoPath { get; set; }
+        public string Role { get; set; }
     }
 }
