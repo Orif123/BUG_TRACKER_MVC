@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BugTrackerProj.Controllers
 {
-    public class AccountController : Controller 
+    public class AccountController : Controller
     {
         private readonly IBugService _bugService;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -35,7 +35,7 @@ namespace BugTrackerProj.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> NewAccount(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -53,20 +53,20 @@ namespace BugTrackerProj.Controllers
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    ProjectId = model.ProjectId ?? "NoProject",
+                    ProjectId = "NoProject",
                     PhotoPath = uniqueFileName ?? "deafaultphoto.jfif"
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                if (_userManager.Users.Count() > 1)
+                if (result.Succeeded == true)
                 {
-                    await _userManager.AddToRoleAsync(user, "User");
-                }
-                else
-                {
-                    await _userManager.AddToRoleAsync(user, "CompanyManager");
-                }
-                if (!result.Succeeded)
-                {
+                    if (_userManager.Users.Count() > 1)
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "CompanyManager");
+                    }
                     return RedirectToAction("HomePage", "Entry");
                 }
                 return RedirectToAction("Register");

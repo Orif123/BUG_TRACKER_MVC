@@ -47,9 +47,7 @@ namespace BugTrackerProj.Service
             var selectlist = new List<SelectListItem>();
             foreach (var item in projlist)
             {
-                
-                    selectlist.Add(new SelectListItem { Text = item.ProjectName, Value = item.ProjectId });
-                
+                 selectlist.Add(new SelectListItem { Text = item.ProjectName, Value = item.ProjectId });
             }
             return selectlist;
         }

@@ -31,9 +31,6 @@ namespace BugTrackerProj.ViewModels
         [DisplayName("Last Name")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string LastName { get; set; }
-        [Required]
-        [DisplayName("Project Name")]
-        public string ProjectId { get; set; }
         [DisplayName("Profile Picture")]
         public IFormFile Photo { get; set; }
 
