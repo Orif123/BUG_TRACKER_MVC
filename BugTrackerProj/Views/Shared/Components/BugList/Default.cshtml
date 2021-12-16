@@ -52,7 +52,7 @@
                         <input type="submit" class="btn-primary" value="Details" asp-controller="Home"  asp-action="BugDetails" asp-route-id="@bug.BugId"  />
                         @if (User.IsInRole("CompanyManager"))
                         {
-                            <input type="submit" value="Solved" class="btn-success" onclick="alert('Are you Sure You Finished With this Bug?')" />
+                            <input type="submit" value="Solved" class="btn-success" onclick="confirm('Are you Sure You Finished With this Bug?')" />
                         }
                     </td>
                 </tr>
