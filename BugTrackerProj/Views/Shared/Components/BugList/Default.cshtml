@@ -52,7 +52,7 @@
                         <input type="submit" class="btn-primary" value="Details" asp-controller="Home"  asp-action="BugDetails" asp-route-id="@bug.BugId"  />
                         @if (User.IsInRole("CompanyManager"))
                         {
-                            <input type="submit" value="Solved" class="btn-success" onclick="confirm('Are you Sure You Finished With this Bug?')" />
+                            <input type="submit" value="Solved" class="btn-success" onclick="return confirm('Are you Sure You Finished With this Bug?')" />
                         }
                     </td>
                 </tr>
@@ -60,6 +60,14 @@
         }
     </tbody>
 </table>
+<script>
+    function ConfirmSubmit() {
+        Page_ClientValidate();
+        if (Page_IsValid) {
+
+            return confirm('Confirm?');
+        }
+</script>
            
 
 
