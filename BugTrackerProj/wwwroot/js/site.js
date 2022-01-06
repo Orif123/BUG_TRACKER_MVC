@@ -12,34 +12,8 @@ connection.start()
     .catch(error => {
         console.error(error.message);
     });
-function sendMessageToHub(details) {
-    connection.invoke('sendMessage', details);
-}
-const textInput = document.getElementById('messageText');
-const groupName = document.getElementById('groupName');
-const chat = document.getElementById('chat');
-const messagesQueue = [];
-
-
-
-function clearInputField() {
-    messagesQueue.push(textInput.value);
-    textInput.value = "";
-}
-function JoinGroup() {
-    const bug = document.getElementById('bugNum').value
-    eventHub.server.join(bug);
-}
-function sendMessage() {
-    let text = textInput.value;
-
-    if (text.trim() === "") return;
-
-    let details = new BugCommentDetailsViewModel(text);
-    sendMessageToHub(details);
-}
 function addMessageToChat(user, massage) {
-    
+
     let container = document.createElement('div');
     container.className += " media"
     let sender = document.createElement('p');
@@ -54,7 +28,31 @@ function addMessageToChat(user, massage) {
     container.appendChild(text);
 }
 
+var el = document.getElementById("JoinButton");
+if (el) {
+    el.addEventListener("click", function (event) {
+        var groupElement = document.getElementById('groupj').innerText;
+        connection.invoke('UserConnected', groupElement).catch(function (err) {
+            return console.error(err.toString())
+        });
+        event.preventDefault();
 
-    
 
 
+
+
+    });
+
+}
+var el2 = document.getElementById("sendButton");
+if (el2) {
+    el2.addEventListener('click', function (event) {
+        var groupElement = document.getElementById('group').value;
+        var user = document.getElementById('user').innerText;
+        var message = document.getElementById('message').value;
+        connection.invoke('NewComment', message, user, groupElement).catch(function (err) {
+            return console.error(err.toString());
+        })
+        event.preventDefault();
+    })
+}

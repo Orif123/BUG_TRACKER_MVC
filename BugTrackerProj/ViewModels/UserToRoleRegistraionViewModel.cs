@@ -8,7 +8,9 @@ namespace BugTrackerProj.ViewModels
 {
     public class UserToRoleRegistraionViewModel
     {
+        [Required]
         public string RoleName { get; set; }
+        [Required]
         public string Username { get; set; }
     }
 }
