@@ -78,7 +78,7 @@ namespace BugTrackerProj.Controllers
             return View(_bugService.GetDetails(id));
         }
         [HttpPost]
-        public async Task<IActionResult> AddComment(BugCommentDetailsViewModel model)
+        public async Task <IActionResult> AddComment(BugCommentDetailsViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace BugTrackerProj.Controllers
                 var user = User.Identity.Name;
                 var message = model.CommentText;
 
-                await _hubContext.Clients.All.SendAsync("NewBugReceived", user, message);
+                await _hubContext.Clients.Group(model.BugId).SendAsync("NewBugReceived", user, message);
                 return RedirectToAction("BugDetails", new { id = model.BugId });
             }
             return RedirectToAction("BugDetails");

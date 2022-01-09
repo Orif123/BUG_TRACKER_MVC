@@ -8,10 +8,8 @@ class BugCommentDetailsViewModel {
 console.log("Hello from Site");
 var connection = new signalR.HubConnectionBuilder().withUrl("/Application").build();
 connection.on("NewBugReceived", addMessageToChat);
-connection.start()
-    .catch(error => {
-        console.error(error.message);
-    });
+connection.start();
+
 function addMessageToChat(user, massage) {
 
     let container = document.createElement('div');
@@ -27,32 +25,25 @@ function addMessageToChat(user, massage) {
     container.appendChild(sender);
     container.appendChild(text);
 }
-
-var el = document.getElementById("JoinButton");
-if (el) {
-    el.addEventListener("click", function (event) {
+window.onload = function () {
+    document.getElementById("JoinButton").addEventListener("click", function (event) {
         var groupElement = document.getElementById('groupj').innerText;
-        connection.invoke('UserConnected', groupElement).catch(function (err) {
+        connection.invoke('JoinGroup', groupElement).catch(function (err) {
             return console.error(err.toString())
         });
-        event.preventDefault();
 
 
-
-
-
-    });
+    })
 
 }
-var el2 = document.getElementById("sendButton");
-if (el2) {
-    el2.addEventListener('click', function (event) {
+function addMessageToGroup(event) {
+    document.getElementById("sendButton").addEventListener("click", function (event) {
         var groupElement = document.getElementById('group').value;
         var user = document.getElementById('user').innerText;
         var message = document.getElementById('message').value;
-        connection.invoke('NewComment', message, user, groupElement).catch(function (err) {
-            return console.error(err.toString());
+        connection.invoke('SendMessageToGroup', groupElement, user, message).catch(function (err) {
+            return console.log(err.toString());
         })
         event.preventDefault();
-    })
+    });
 }

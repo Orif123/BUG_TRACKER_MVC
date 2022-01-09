@@ -14,7 +14,7 @@
             <h5 class="card-title"><small class="text-muted">Date:</small> @bug.BugDate</h5>
             <div class="card-text">
                 <p><small class="text-muted">Category:</small> @bug.Category.CtaegoryName</p>
-                <p><small class="text-muted">User:</small> @bug.User.UserName</p>
+                <p id="user"><small class="text-muted">User:</small> @bug.User.UserName</p>
                 <p><small class="text-muted">Link to Repository:</small><a href=" @bug.RepoLink">@bug.User.UserName Repository</a></p>
             </div>
 
@@ -26,18 +26,18 @@
         <h4 class="details">Send Message</h4>
         <form method="post">
             <div>
-                <input type="hidden" asp-for="BugId" value="@(ViewContext.RouteData.Values["id"])" />
+                <input id="group" type="hidden" asp-for="BugId" value="@(ViewContext.RouteData.Values["id"])" />
             </div>
             <div>
                 <label asp-for="CommentText"></label>
             </div>
             <div>
-                <textarea id="messageText" asp-for="CommentText"></textarea>
+                <textarea id="message" asp-for="CommentText"></textarea>
                 <div>
                     <span class="text-danger" asp-validation-for="CommentText"></span>
                 </div>
             </div>
-            <input type="submit" value="Send Message" class="btn btn-outline-success" asp-action="AddComment" />
+            <input type="submit" onclick="return addMessageToGroup(this)" value="Send Message" class="btn btn-outline-success" asp-action="AddComment" />
         </form>
     </div>
     <div class="text-center">
@@ -51,7 +51,6 @@
             </div>
         }
     </div>
-
 </body>
 
 
