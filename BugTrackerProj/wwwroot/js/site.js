@@ -25,14 +25,13 @@ function addMessageToChat(user, massage) {
     container.appendChild(sender);
     container.appendChild(text);
 }
-window.onload = function () {
+ function joinGroup(event) {
     document.getElementById("JoinButton").addEventListener("click", function (event) {
         var groupElement = document.getElementById('groupj').innerText;
         connection.invoke('JoinGroup', groupElement).catch(function (err) {
             return console.error(err.toString())
         });
-
-
+        event.preventDefault();
     })
 
 }

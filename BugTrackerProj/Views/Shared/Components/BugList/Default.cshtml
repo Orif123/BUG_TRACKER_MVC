@@ -35,9 +35,6 @@
             @using (Html.BeginForm("Solved", "AdminRole", new { id = bug.BugId }))
             {
                 <tr>
-                    <td id="groupj">
-                        @bug.BugId
-                    </td>
                     <td>
                         @bug.Category.CtaegoryName
                     </td>
@@ -52,7 +49,7 @@
                     </td>
                     <td>
 
-                        <input type="submit" id="JoinButton" class="btn-primary" value="Details" asp-controller="Home"  asp-action="BugDetails" asp-route-id="@bug.BugId"  />
+                        <input type="submit" onclick="return joinGroup(this)" class="btn-primary" value="Details" asp-controller="Home"  asp-action="BugDetails" asp-route-id="@bug.BugId"  />
                         @if (User.IsInRole("CompanyManager"))
                         {
                             <input type="submit" value="Solved" class="btn-success" onclick="return confirm('Are you Sure You Finished With this Bug?')" />

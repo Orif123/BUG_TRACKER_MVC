@@ -17,7 +17,7 @@ namespace BugTrackerProj
         }
        public async Task SendMessageToGroup(string groupName, string user, string message)
         {
-            await Clients.Group(groupName).SendAsync("NewBugReceived", user, message);
+            await Clients.Groups(groupName).SendAsync("NewBugReceived", user, message);
         }
     }
 }
